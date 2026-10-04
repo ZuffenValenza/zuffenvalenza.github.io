@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo Premium | Zuffen & Valenza Designer</title>
-    <!-- Adicionei a fonte 'Oswald' para um toque mais urbano e agressivo nos títulos -->
+    <!-- Fontes urbanas e premium -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Montserrat:wght@300;400;600&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            /* Fundo principal tipo 'onyx' escuro, não 100% preto */
+            /* Fundo principal tipo 'onyx' escuro */
             --bg-color: #0a0a0a; 
             --surface-color: #151515;
             --gold-primary: #D4AF37;
@@ -33,20 +33,21 @@
             min-height: 100vh;
         }
 
-        /* Cabeçalho Premium */
+        /* Cabeçalho Premium - ATUALIZADO */
         header {
             text-align: center;
-            padding: 50px 20px 30px;
+            padding: 80px 20px 10px; /* Mais espaço no topo, aproximado embaixo */
             background: linear-gradient(to bottom, rgba(10,10,10,0.9) 0%, transparent 100%);
         }
 
+        /* Logo - ATUALIZADA */
         .logo-topo {
-            max-width: 280px; 
+            max-width: 550px; /* Limite de tamanho dobrado para compensar a margem da imagem */
+            width: 100%; /* Mantém a responsividade em celulares */
             height: auto;
-            margin: 0 auto 15px auto; 
+            margin: 0 auto 5px auto; 
             display: block;
             filter: drop-shadow(0px 8px 15px rgba(0, 0, 0, 0.8)); 
-            /* Um leve movimento de entrada para a logo */
             animation: fadeInDown 1s ease-out; 
         }
 
@@ -73,9 +74,9 @@
             border: 1px solid rgba(212, 175, 55, 0.3);
             color: var(--text-muted);
             padding: 10px 24px;
-            border-radius: 4px; /* Cantos mais retos para um visual mais industrial/masculino */
+            border-radius: 4px;
             cursor: pointer;
-            font-family: 'Oswald', sans-serif; /* Fonte mais marcante */
+            font-family: 'Oswald', sans-serif;
             font-weight: 500;
             font-size: 0.9rem;
             transition: all 0.4s ease;
@@ -105,7 +106,7 @@
             margin: 0 auto;
         }
 
-        /* O Cartão (A Joia) */
+        /* O Cartão */
         .card-estampa {
             background-color: var(--surface-color);
             border-radius: 2px;
@@ -115,7 +116,6 @@
             position: relative;
         }
 
-        /* Efeito de Brilho Dourado no Hover (Levitação) */
         .card-estampa:hover {
             transform: translateY(-8px);
             border-color: rgba(212, 175, 55, 0.4);
@@ -140,7 +140,7 @@
 
         .img-container {
             width: 100%;
-            height: 400px; /* Mais alto para destacar a arte */
+            height: 400px;
             background-color: #000;
             display: flex;
             align-items: center;
@@ -149,7 +149,6 @@
             position: relative;
         }
 
-        /* Efeito escuro suave sobre a imagem que sai ao passar o rato */
         .img-container::after {
             content: '';
             position: absolute;
@@ -159,7 +158,7 @@
         }
 
         .card-estampa:hover .img-container::after {
-            opacity: 0; /* Clareia a imagem no hover */
+            opacity: 0;
         }
 
         .img-container img {
@@ -170,7 +169,7 @@
         }
 
         .card-estampa:hover .img-container img {
-            transform: scale(1.08); /* Zoom dramático */
+            transform: scale(1.08);
         }
 
         /* Informações do Card */
@@ -211,13 +210,12 @@
             letter-spacing: 2px;
             text-transform: uppercase;
             border: 1px solid var(--gold-primary);
-            border-radius: 0; /* Design brutalista/industrial */
+            border-radius: 0; 
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
         }
 
-        /* Efeito de preenchimento magnético do botão */
         .btn-encomendar::before {
             content: '';
             position: absolute;
@@ -251,7 +249,7 @@
 <body>
 
     <header>
-        <!-- A sua logo original que flutua no topo -->
+        <!-- A sua logo carregando de forma imponente -->
         <img src="logo.png" alt="Zuffen & Valenza Designer" class="logo-topo">
         <p>Private Label • Sob Encomenda</p>
     </header>
@@ -289,12 +287,10 @@
                 ? estampas 
                 : estampas.filter(e => e.categoria === filtroCategoria);
 
-            // Animação de entrada sequencial para os cartões
             estampasFiltradas.forEach((estampa, index) => {
                 const mensagem = encodeURIComponent(`Olá, Zuffen & Valenza! Desejo encomendar uma peça premium. Código da Estampa: ${estampa.id} (${estampa.nome}). Aguardo contato para os tamanhos.`);
                 const linkWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensagem}`;
 
-                // Adicionado um delay na animação para criar um efeito 'cascata' ao carregar
                 const delay = index * 0.1;
 
                 const cardHTML = `
