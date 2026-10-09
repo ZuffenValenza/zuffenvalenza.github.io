@@ -1,15 +1,13 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo Premium | Zuffen & Valenza Designer</title>
-    <!-- Fontes urbanas e premium -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Montserrat:wght@300;400;600&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            /* Fundo principal tipo 'onyx' escuro */
             --bg-color: #0a0a0a; 
             --surface-color: #151515;
             --gold-primary: #D4AF37;
@@ -18,14 +16,9 @@
             --text-muted: #888888;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            /* Fundo com leve gradiente radial simulando iluminação central */
             background: radial-gradient(circle at 50% 0%, #1a1a1a 0%, var(--bg-color) 70%);
             color: var(--text-light);
             font-family: 'Montserrat', sans-serif;
@@ -33,17 +26,16 @@
             min-height: 100vh;
         }
 
-        /* Cabeçalho Premium - ATUALIZADO */
+        /* --- CABEÇALHO E LOGO --- */
         header {
             text-align: center;
-            padding: 80px 20px 10px; /* Mais espaço no topo, aproximado embaixo */
+            padding: 50px 20px 20px;
             background: linear-gradient(to bottom, rgba(10,10,10,0.9) 0%, transparent 100%);
         }
 
-        /* Logo - ATUALIZADA */
         .logo-topo {
-            max-width: 550px; /* Limite de tamanho dobrado para compensar a margem da imagem */
-            width: 100%; /* Mantém a responsividade em celulares */
+            max-width: 550px; 
+            width: 100%;
             height: auto;
             margin: 0 auto 5px auto; 
             display: block;
@@ -52,241 +44,220 @@
         }
 
         header p {
-            font-weight: 300;
-            font-size: 0.85rem;
-            color: var(--gold-primary);
-            letter-spacing: 4px;
-            text-transform: uppercase;
+            font-weight: 300; font-size: 0.85rem; color: var(--gold-primary);
+            letter-spacing: 4px; text-transform: uppercase;
             animation: fadeInUp 1s ease-out 0.3s backwards;
         }
 
-        /* Filtros de Categoria */
-        .filtros {
+        /* --- BANNER DE CAMPANHA (DROP) --- */
+        .banner-container {
+            width: 100%;
+            max-width: 1300px;
+            margin: 20px auto 40px auto;
+            padding: 0 20px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .banner-img {
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            object-fit: cover;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 2px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.6);
+            display: block;
+        }
+
+        /* --- BARRA DE NAVEGAÇÃO E FILTROS --- */
+        .barra-controles {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            padding: 30px 20px 40px;
+            align-items: center;
             flex-wrap: wrap;
-        }
-
-        .btn-filtro {
-            background: transparent;
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            color: var(--text-muted);
-            padding: 10px 24px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-family: 'Oswald', sans-serif;
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: all 0.4s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .btn-filtro:hover {
-            border-color: var(--gold-primary);
-            color: var(--gold-primary);
-        }
-
-        .btn-filtro.ativo {
-            background: var(--gold-primary);
-            color: var(--bg-color);
-            border-color: var(--gold-primary);
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
-        }
-
-        /* Grid do Catálogo */
-        .galeria {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 35px;
-            padding: 0 20px 60px 20px;
+            gap: 15px;
+            padding: 0 20px 40px;
             max-width: 1300px;
             margin: 0 auto;
         }
 
-        /* O Cartão */
+        .btn-filtro {
+            background: transparent; border: 1px solid rgba(212, 175, 55, 0.3);
+            color: var(--text-muted); padding: 10px 24px; border-radius: 4px;
+            cursor: pointer; font-family: 'Oswald', sans-serif; font-weight: 500;
+            font-size: 0.9rem; transition: all 0.4s ease; text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        .btn-filtro:hover { border-color: var(--gold-primary); color: var(--gold-primary); }
+        .btn-filtro.ativo { background: var(--gold-primary); color: var(--bg-color); border-color: var(--gold-primary); box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
+
+        /* Botão Tabela de Medidas */
+        .btn-medidas {
+            background: rgba(255, 255, 255, 0.05); border: 1px dashed var(--gold-primary);
+            color: var(--gold-primary); padding: 10px 24px; border-radius: 4px;
+            cursor: pointer; font-family: 'Oswald', sans-serif; font-weight: 500;
+            font-size: 0.9rem; transition: all 0.4s ease; text-transform: uppercase; letter-spacing: 1px;
+            margin-left: 20px;
+        }
+        .btn-medidas:hover { background: rgba(212, 175, 55, 0.1); }
+
+        /* --- MODAL DA TABELA DE MEDIDAS --- */
+        .modal-fundo {
+            display: none; position: fixed; z-index: 9999; left: 0; top: 0;
+            width: 100%; height: 100%; background-color: rgba(0,0,0,0.85);
+            align-items: center; justify-content: center; backdrop-filter: blur(5px);
+        }
+        .modal-fundo.ativo { display: flex; animation: fadeIn 0.3s ease; }
+
+        .modal-conteudo {
+            background: var(--surface-color); padding: 40px; border: 1px solid var(--gold-primary);
+            border-radius: 4px; max-width: 500px; width: 90%; text-align: center;
+            position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+        }
+
+        .fechar-modal {
+            position: absolute; right: 20px; top: 15px; color: var(--text-muted);
+            font-size: 28px; font-weight: bold; cursor: pointer; transition: 0.3s;
+        }
+        .fechar-modal:hover { color: var(--gold-primary); }
+
+        .modal-conteudo h2 { font-family: 'Oswald', sans-serif; color: var(--gold-primary); margin-bottom: 20px; letter-spacing: 2px; }
+        .modal-conteudo p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px; }
+
+        .tabela-tamanhos { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .tabela-tamanhos th, .tabela-tamanhos td { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 0.9rem; }
+        .tabela-tamanhos th { color: var(--gold-primary); font-family: 'Oswald', sans-serif; letter-spacing: 1px; }
+        .tabela-tamanhos tr:hover { background-color: rgba(255,255,255,0.02); }
+
+        /* --- GRID DO CATÁLOGO --- */
+        .galeria {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 35px; padding: 0 20px 60px 20px; max-width: 1300px; margin: 0 auto;
+        }
+
+        /* O Cartão da Peça */
         .card-estampa {
-            background-color: var(--surface-color);
-            border-radius: 2px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            background-color: var(--surface-color); border-radius: 2px; overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.03); transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
             position: relative;
         }
+        .card-estampa:hover { transform: translateY(-8px); border-color: rgba(212, 175, 55, 0.4); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(212, 175, 55, 0.15); }
 
-        .card-estampa:hover {
-            transform: translateY(-8px);
-            border-color: rgba(212, 175, 55, 0.4);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(212, 175, 55, 0.15);
-        }
-
-        /* Tag de Exclusividade */
         .tag-exclusiva {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background-color: var(--bg-color);
-            border: 1px solid var(--gold-primary);
-            color: var(--gold-primary);
-            font-size: 0.65rem;
-            padding: 4px 8px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            z-index: 10;
+            position: absolute; top: 15px; left: 15px; background-color: var(--bg-color);
+            border: 1px solid var(--gold-primary); color: var(--gold-primary); font-size: 0.65rem;
+            padding: 4px 8px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; z-index: 10;
         }
 
         .img-container {
-            width: 100%;
-            height: 400px;
-            background-color: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            position: relative;
+            width: 100%; height: 400px; background-color: #000; display: flex;
+            align-items: center; justify-content: center; overflow: hidden; position: relative;
         }
-
         .img-container::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(to bottom, transparent 60%, rgba(10,10,10,0.8) 100%);
             transition: opacity 0.5s ease;
         }
+        .card-estampa:hover .img-container::after { opacity: 0; }
+        .img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        .card-estampa:hover .img-container img { transform: scale(1.08); }
 
-        .card-estampa:hover .img-container::after {
-            opacity: 0;
-        }
+        .info-card { padding: 25px 20px; text-align: center; background: var(--surface-color); position: relative; z-index: 2; }
+        .codigo-estampa { font-family: 'Oswald', sans-serif; color: var(--gold-primary); font-size: 0.9rem; letter-spacing: 2px; margin-bottom: 8px; }
+        .nome-estampa { font-size: 1.1rem; font-weight: 400; color: var(--text-light); margin-bottom: 20px; letter-spacing: 0.5px; }
 
-        .img-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-
-        .card-estampa:hover .img-container img {
-            transform: scale(1.08);
-        }
-
-        /* Informações do Card */
-        .info-card {
-            padding: 25px 20px;
-            text-align: center;
-            background: var(--surface-color);
-            position: relative;
-            z-index: 2;
-        }
-
-        .codigo-estampa {
-            font-family: 'Oswald', sans-serif;
-            color: var(--gold-primary);
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-            margin-bottom: 8px;
-        }
-
-        .nome-estampa {
-            font-size: 1.1rem;
-            font-weight: 400;
-            color: var(--text-light);
-            margin-bottom: 20px;
-            letter-spacing: 0.5px;
-        }
-
-        /* Botão Encomendar Premium */
         .btn-encomendar {
-            display: inline-block;
-            width: 100%;
-            background-color: transparent;
-            color: var(--text-light);
-            padding: 12px 0;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.85rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            border: 1px solid var(--gold-primary);
-            border-radius: 0; 
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            display: inline-block; width: 100%; background-color: transparent; color: var(--text-light);
+            padding: 12px 0; text-decoration: none; font-weight: 600; font-size: 0.85rem;
+            letter-spacing: 2px; text-transform: uppercase; border: 1px solid var(--gold-primary);
+            transition: all 0.3s ease; position: relative; overflow: hidden;
         }
+        .btn-encomendar::before { content: ''; position: absolute; top: 0; left: 0; width: 0%; height: 100%; background-color: var(--gold-primary); transition: width 0.3s ease; z-index: -1; }
+        .btn-encomendar:hover { color: var(--bg-color); font-weight: 700; }
+        .btn-encomendar:hover::before { width: 100%; }
 
-        .btn-encomendar::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 0%; height: 100%;
-            background-color: var(--gold-primary);
-            transition: width 0.3s ease;
-            z-index: -1;
-        }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .btn-encomendar:hover {
-            color: var(--bg-color);
-            font-weight: 700;
+        @media (max-width: 768px) {
+            .barra-controles { flex-direction: column; }
+            .btn-medidas { margin-left: 0; width: 100%; }
+            .btn-filtro { width: 100%; }
         }
-
-        .btn-encomendar:hover::before {
-            width: 100%;
-        }
-
-        /* Animações CSS */
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
     </style>
 </head>
 <body>
 
     <header>
-        <!-- A sua logo carregando de forma imponente -->
         <img src="logo.png" alt="Zuffen & Valenza Designer" class="logo-topo">
         <p>Private Label • Sob Encomenda</p>
     </header>
 
-    <div class="filtros">
+    <!-- BANNER DE CAMPANHA -->
+    <div class="banner-container">
+        <img src="banner.jpg" alt="Drop Exclusivo" class="banner-img" onerror="this.style.display='none'">
+    </div>
+
+    <!-- CONTROLES E FILTROS -->
+    <div class="barra-controles">
         <button class="btn-filtro ativo" onclick="filtrar('todas')">Acervo Completo</button>
         <button class="btn-filtro" onclick="filtrar('oriental')">Oriental & Mangá</button>
-        <button class="btn-filtro" onclick="filtrar('urban')">urban & streetwear</button>
+        <button class="btn-filtro" onclick="filtrar('urban')">Urban & Streetwear</button>
         <button class="btn-filtro" onclick="filtrar('minimalista')">Street Minimal</button>
+        
+        <!-- Botão Guia de Tamanhos -->
+        <button class="btn-medidas" onclick="abrirModal()">📏 Guia de Tamanhos</button>
     </div>
 
     <main class="galeria" id="galeria">
-        <!-- As estampas serão injetadas aqui pelo JavaScript -->
+        <!-- As estampas serão injetadas aqui -->
     </main>
 
+    <!-- MODAL TABELA DE MEDIDAS -->
+    <div id="modal-tamanhos" class="modal-fundo">
+        <div class="modal-conteudo">
+            <span class="fechar-modal" onclick="fecharModal()">&times;</span>
+            <h2>GUIA DE TAMANHOS</h2>
+            <p>Malha 100% Algodão Premium. Modelagem Streetwear Unissexo.</p>
+            <table class="tabela-tamanhos">
+                <tr>
+                    <th>Tamanho</th>
+                    <th>Largura (Tórax)</th>
+                    <th>Altura (Comprimento)</th>
+                </tr>
+                <tr><td>P</td><td>50 cm</td><td>70 cm</td></tr>
+                <tr><td>M</td><td>52 cm</td><td>72 cm</td></tr>
+                <tr><td>G</td><td>54 cm</td><td>74 cm</td></tr>
+                <tr><td>GG</td><td>56 cm</td><td>76 cm</td></tr>
+            </table>
+            <p style="margin-top: 15px; font-size: 0.75rem; color: #555;">* Pode haver variação de até 2cm devido ao processo de costura industrial.</p>
+        </div>
+    </div>
+
     <script>
-        // O SEU ACERVO DE ESTAMPAS 
+        // --- BASE DE DADOS DO ACERVO REAL ---
         const estampas = [
-            { id: 'ZV-001', nome: 'Ronin Sombrio', categoria: 'urban & streetwear', img: 'ZV-001.png' },
-            { id: 'ZV-002', nome: 'Máscara Oni Ouro', categoria: 'urban & streetwear', img: 'ZV-002.png' },
-            { id: 'ZV-003', nome: 'Neo Tokyo Grid', categoria: 'urban & streetwear', img: 'ZV-003.png' },
-            { id: 'ZV-004', nome: 'Monograma Minimal', categoria: 'urban & streetwear', img: 'ZV-004.png' },
-            { id: 'ZV-005', nome: 'Katana Sangrenta', categoria: 'urban & streetwear', img: 'ZV-005.png' },
-            { id: 'ZV-006', nome: 'Logo ZV Outline', categoria: 'urban & streetwear', img: 'ZV-006.png' },
-            { id: 'ZV-007', nome: 'Ronin Sombrio', categoria: 'urban & streetwear', img: 'ZV-007.png' },
-            { id: 'ZV-008', nome: 'Máscara Oni Ouro', categoria: 'urban & streetwear', img: 'ZV-008.png' },
-            { id: 'ZV-009', nome: 'Neo Tokyo Grid', categoria: 'urban & streetwear', img: 'ZV-009.png' },
-            { id: 'ZV-010', nome: 'Monograma Minimal', categoria: 'urban & streetwear', img: 'ZV-010.png' },
-            { id: 'ZV-011', nome: 'Katana Sangrenta', categoria: 'urban & streetwear', img: 'ZV-011.png' },
-            { id: 'ZV-012', nome: 'Logo ZV Outline', categoria: 'urban & streetwear', img: 'ZV-012.png' },
-            { id: 'ZV-013', nome: 'Ronin Sombrio', categoria: 'urban & streetwear', img: 'ZV-013.png' },
-            { id: 'ZV-014', nome: 'Máscara Oni Ouro', categoria: 'urban & streetwear', img: 'ZV-014.png' },  
+            { id: 'ZV-001', nome: 'Ronin Sombrio', categoria: 'urban', img: 'ZV-001.png' },
+            { id: 'ZV-002', nome: 'Máscara Oni Ouro', categoria: 'urban', img: 'ZV-002.png' },
+            { id: 'ZV-003', nome: 'Neo Tokyo Grid', categoria: 'urban', img: 'ZV-003.png' },
+            { id: 'ZV-004', nome: 'Monograma Minimal', categoria: 'urban', img: 'ZV-004.png' },
+            { id: 'ZV-005', nome: 'Katana Sangrenta', categoria: 'urban', img: 'ZV-005.png' },
+            { id: 'ZV-006', nome: 'Logo ZV Outline', categoria: 'urban', img: 'ZV-006.png' },
+            { id: 'ZV-007', nome: 'Ronin Sombrio', categoria: 'urban', img: 'ZV-007.png' },
+            { id: 'ZV-008', nome: 'Máscara Oni Ouro', categoria: 'urban', img: 'ZV-008.png' },
+            { id: 'ZV-009', nome: 'Neo Tokyo Grid', categoria: 'urban', img: 'ZV-009.png' },
+            { id: 'ZV-010', nome: 'Monograma Minimal', categoria: 'urban', img: 'ZV-010.png' },
+            { id: 'ZV-011', nome: 'Katana Sangrenta', categoria: 'urban', img: 'ZV-011.png' },
+            { id: 'ZV-012', nome: 'Logo ZV Outline', categoria: 'urban', img: 'ZV-012.png' },
+            { id: 'ZV-013', nome: 'Ronin Sombrio', categoria: 'urban', img: 'ZV-013.png' },
+            { id: 'ZV-014', nome: 'Máscara Oni Ouro', categoria: 'urban', img: 'ZV-014.png' },  
         ];
 
         // O SEU NÚMERO DE WHATSAPP
         const numeroWhatsApp = "5547996720018";
 
+        // Lógica da Galeria
         function renderizarGaleria(filtroCategoria) {
             const galeria = document.getElementById('galeria');
             galeria.innerHTML = ''; 
@@ -296,23 +267,20 @@
                 : estampas.filter(e => e.categoria === filtroCategoria);
 
             estampasFiltradas.forEach((estampa, index) => {
-                const mensagem = encodeURIComponent(`Olá, Zuffen & Valenza! Desejo encomendar uma peça premium. Código da Estampa: ${estampa.id} (${estampa.nome}). Aguardo contato para os tamanhos.`);
+                const mensagem = encodeURIComponent(`Olá, Zuffen & Valenza! Desejo encomendar uma peça premium. Código da Estampa: ${estampa.id} (${estampa.nome}). Aguardo contacto para os tamanhos.`);
                 const linkWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensagem}`;
-
                 const delay = index * 0.1;
 
                 const cardHTML = `
                     <div class="card-estampa" style="animation: fadeInUp 0.6s ease-out ${delay}s backwards;">
                         <span class="tag-exclusiva">Sob Encomenda</span>
                         <div class="img-container">
-                            <img src="${estampa.img}" alt="${estampa.nome}" loading="lazy">
+                            <img src="${estampa.img}" alt="${estampa.nome}" onerror="this.src='https://via.placeholder.com/400x600/111/D4AF37?text=Imagem+N%C3%A3o+Encontrada'">
                         </div>
                         <div class="info-card">
                             <div class="codigo-estampa">${estampa.id}</div>
                             <div class="nome-estampa">${estampa.nome}</div>
-                            <a href="${linkWhatsApp}" target="_blank" class="btn-encomendar">
-                                Encomendar Agora
-                            </a>
+                            <a href="${linkWhatsApp}" target="_blank" class="btn-encomendar">Encomendar Agora</a>
                         </div>
                     </div>
                 `;
@@ -325,6 +293,16 @@
             botoes.forEach(btn => btn.classList.remove('ativo'));
             event.target.classList.add('ativo');
             renderizarGaleria(categoria);
+        }
+
+        // Lógica do Modal de Medidas
+        const modal = document.getElementById('modal-tamanhos');
+        function abrirModal() { modal.classList.add('ativo'); }
+        function fecharModal() { modal.classList.remove('ativo'); }
+        
+        // Fechar clicando fora da caixa
+        window.onclick = function(event) {
+            if (event.target == modal) { fecharModal(); }
         }
 
         window.onload = () => renderizarGaleria('todas');
