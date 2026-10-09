@@ -166,11 +166,29 @@
         .codigo-estampa { font-family: 'Oswald', sans-serif; color: var(--gold-primary); font-size: 0.9rem; letter-spacing: 2px; margin-bottom: 8px; }
         .nome-estampa { font-size: 1.1rem; font-weight: 400; color: var(--text-light); margin-bottom: 20px; letter-spacing: 0.5px; }
 
+        /* Estilo do Seletor de Tamanhos */
+        .seletor-tamanho {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            background-color: var(--bg-color);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: var(--text-light);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            outline: none;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+        .seletor-tamanho:focus { border-color: var(--gold-primary); }
+
         .btn-encomendar {
             display: inline-block; width: 100%; background-color: transparent; color: var(--text-light);
             padding: 12px 0; text-decoration: none; font-weight: 600; font-size: 0.85rem;
             letter-spacing: 2px; text-transform: uppercase; border: 1px solid var(--gold-primary);
-            transition: all 0.3s ease; position: relative; overflow: hidden;
+            transition: all 0.3s ease; position: relative; overflow: hidden; cursor: pointer;
         }
         .btn-encomendar::before { content: ''; position: absolute; top: 0; left: 0; width: 0%; height: 100%; background-color: var(--gold-primary); transition: width 0.3s ease; z-index: -1; }
         .btn-encomendar:hover { color: var(--bg-color); font-weight: 700; }
@@ -257,6 +275,23 @@
         // O SEU NÚMERO DE WHATSAPP
         const numeroWhatsApp = "5547996720018";
 
+        // Lógica de Envio para o WhatsApp com Tamanho
+        function enviarPedido(idEstampa, nomeEstampa) {
+            const seletor = document.getElementById(`tamanho-${idEstampa}`);
+            const tamanhoEscolhido = seletor.value;
+
+            if (!tamanhoEscolhido) {
+                alert("Por favor, selecione um tamanho (P, M, G ou GG) antes de encomendar.");
+                seletor.focus();
+                return;
+            }
+
+            const mensagem = encodeURIComponent(`Olá, Zuffen & Valenza! Desejo encomendar uma peça premium.\n\nModelo: ${nomeEstampa}\nCódigo: ${idEstampa}\nTamanho: ${tamanhoEscolhido}`);
+            const linkWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensagem}`;
+            
+            window.open(linkWhatsApp, '_blank');
+        }
+
         // Lógica da Galeria
         function renderizarGaleria(filtroCategoria) {
             const galeria = document.getElementById('galeria');
@@ -267,8 +302,6 @@
                 : estampas.filter(e => e.categoria === filtroCategoria);
 
             estampasFiltradas.forEach((estampa, index) => {
-                const mensagem = encodeURIComponent(`Olá, Zuffen & Valenza! Desejo encomendar uma peça premium. Código da Estampa: ${estampa.id} (${estampa.nome}). Aguardo contacto para os tamanhos.`);
-                const linkWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensagem}`;
                 const delay = index * 0.1;
 
                 const cardHTML = `
@@ -280,7 +313,18 @@
                         <div class="info-card">
                             <div class="codigo-estampa">${estampa.id}</div>
                             <div class="nome-estampa">${estampa.nome}</div>
-                            <a href="${linkWhatsApp}" target="_blank" class="btn-encomendar">Encomendar Agora</a>
+                            
+                            <select id="tamanho-${estampa.id}" class="seletor-tamanho">
+                                <option value="" disabled selected>Escolha o Tamanho</option>
+                                <option value="P">Tamanho P</option>
+                                <option value="M">Tamanho M</option>
+                                <option value="G">Tamanho G</option>
+                                <option value="GG">Tamanho GG</option>
+                            </select>
+
+                            <button onclick="enviarPedido('${estampa.id}', '${estampa.nome}')" class="btn-encomendar">
+                                Encomendar Agora
+                            </button>
                         </div>
                     </div>
                 `;
@@ -300,7 +344,6 @@
         function abrirModal() { modal.classList.add('ativo'); }
         function fecharModal() { modal.classList.remove('ativo'); }
         
-        // Fechar clicando fora da caixa
         window.onclick = function(event) {
             if (event.target == modal) { fecharModal(); }
         }
