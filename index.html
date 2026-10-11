@@ -176,7 +176,7 @@
         // ==========================================
         // DADOS DA LOJA E DOMÍNIO
         // ==========================================
-        const precoFixo = 69.90;
+        const precoFixo = 89.90;
         const precoFormatado = precoFixo.toFixed(2).replace('.', ',');
         const numeroWhatsApp = "5547996720018";
         
@@ -216,11 +216,11 @@
             });
         }
 
-       function abrirDetalhesProduto(idProduto) {
+        function abrirDetalhesProduto(idProduto) {
             const produto = estampas.find(e => e.id === idProduto);
             const containerModal = document.getElementById('conteudo-produto');
             
-            // POKA-YOKE: Transforma aspas duplas em código seguro para não quebrar o HTML
+            // POKA-YOKE: Transforma aspas duplas em código HTML seguro para o clique não quebrar
             const nomeSeguro = produto.nome.replace(/"/g, '&quot;');
             
             containerModal.innerHTML = `
@@ -251,7 +251,7 @@
                         <input type="number" id="qtd-modal" class="campo-input" value="1" min="1" placeholder="Qtd">
                     </div>
 
-                    <!-- Aqui usamos a variável nomeSeguro no clique -->
+                    <!-- Passando o nomeSeguro para não quebrar a função JavaScript -->
                     <button onclick="enviarPedidoAutomatizado('${produto.id}', '${nomeSeguro}', '${produto.imagens[0]}')" class="btn-comprar-modal">
                         FINALIZAR COMPRA
                     </button>
@@ -264,7 +264,6 @@
             document.body.style.overflow = 'hidden'; 
             document.getElementById('modal-produto').classList.add('ativo');
         }
-        }
 
         // ==========================================
         // O MOTOR DE AUTOMAÇÃO (LOJA -> NUVEM -> WHATSAPP)
@@ -273,6 +272,9 @@
             const nomeCliente = document.getElementById('nome-cliente').value.trim();
             const tamanho = document.getElementById('tamanho-modal').value;
             const qtd = parseInt(document.getElementById('qtd-modal').value);
+
+            // Reverte o &quot; para aspas normais apenas para gravar no banco e enviar no WhatsApp
+            const nomeEstampaOriginal = nomeEstampa.replace(/&quot;/g, '"');
 
             if (!nomeCliente) { alert("Por favor, informe o seu nome para continuarmos."); document.getElementById('nome-cliente').focus(); return; }
             if (!tamanho) { alert("Por favor, selecione um tamanho."); document.getElementById('tamanho-modal').focus(); return; }
@@ -303,11 +305,10 @@
             db.collection("pedidos").add(novoPedidoERP).catch(err => console.error("Erro Nuvem:", err));
 
             // 3. PREPARAÇÃO DO TEXTO COM O LINK DA FOTO PARA O WHATSAPP
-            // Usamos o domínio oficial + o nome da imagem para o WhatsApp gerar a miniatura
             const linkDaFoto = `${dominioDoSite}${nomeImagem}`;
             
             const textoWhatsApp = `Olá, Zuffen & Valenza! Sou o *${nomeCliente}* e quero finalizar a minha compra:\n\n` +
-                                  `▸ *Peça:* ${nomeEstampa} (${idEstampa})\n` +
+                                  `▸ *Peça:* ${nomeEstampaOriginal} (${idEstampa})\n` +
                                   `▸ *Tamanho:* ${tamanho}\n` +
                                   `▸ *Quantidade:* ${qtd} un.\n` +
                                   `▸ *Total:* R$ ${(precoFixo * qtd).toFixed(2).replace('.', ',')}\n\n` +
