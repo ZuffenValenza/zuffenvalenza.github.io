@@ -176,7 +176,7 @@
         // ==========================================
         // DADOS DA LOJA E DOMÍNIO
         // ==========================================
-        const precoFixo = 89.90;
+        const precoFixo = 69.90;
         const precoFormatado = precoFixo.toFixed(2).replace('.', ',');
         const numeroWhatsApp = "5547996720018";
         
@@ -216,9 +216,12 @@
             });
         }
 
-        function abrirDetalhesProduto(idProduto) {
+       function abrirDetalhesProduto(idProduto) {
             const produto = estampas.find(e => e.id === idProduto);
             const containerModal = document.getElementById('conteudo-produto');
+            
+            // POKA-YOKE: Transforma aspas duplas em código seguro para não quebrar o HTML
+            const nomeSeguro = produto.nome.replace(/"/g, '&quot;');
             
             containerModal.innerHTML = `
                 <span class="fechar-modal-produto" onclick="fecharDetalhesProduto()">&times;</span>
@@ -248,7 +251,8 @@
                         <input type="number" id="qtd-modal" class="campo-input" value="1" min="1" placeholder="Qtd">
                     </div>
 
-                    <button onclick="enviarPedidoAutomatizado('${produto.id}', '${produto.nome}', '${produto.imagens[0]}')" class="btn-comprar-modal">
+                    <!-- Aqui usamos a variável nomeSeguro no clique -->
+                    <button onclick="enviarPedidoAutomatizado('${produto.id}', '${nomeSeguro}', '${produto.imagens[0]}')" class="btn-comprar-modal">
                         FINALIZAR COMPRA
                     </button>
                     
@@ -259,6 +263,7 @@
             `;
             document.body.style.overflow = 'hidden'; 
             document.getElementById('modal-produto').classList.add('ativo');
+        }
         }
 
         // ==========================================
