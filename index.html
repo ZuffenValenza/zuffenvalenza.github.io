@@ -105,7 +105,7 @@
         
         /* MINIATURAS */
         .thumbnails-container {
-            display: flex; gap: 15px; width: 100%; max-width: 400px; justify-content: center;
+            display: flex; gap: 15px; width: 100%; max-width: 400px; justify-content: center; flex-wrap: wrap;
         }
         .thumb {
             width: 80px; height: 80px; background-color: var(--studio-light); border-radius: 8px;
@@ -269,7 +269,19 @@
             const produto = estampas.find(e => e.id === idProduto);
             const containerModal = document.getElementById('conteudo-produto');
             
+            // Corrige o bug das aspas no nome do produto
             const nomeSeguro = produto.nome.replace(/"/g, '&quot;');
+            
+            // Constrói as miniaturas automaticamente com base nas imagens disponíveis no array
+            let htmlMiniaturas = '';
+            produto.imagens.forEach((img, index) => {
+                let classeAtivo = index === 0 ? 'ativo' : '';
+                htmlMiniaturas += `
+                    <div class="thumb ${classeAtivo}" onclick="trocarImagem('${img}', this)">
+                        <img src="${img}" onerror="this.style.display='none'">
+                    </div>
+                `;
+            });
             
             containerModal.innerHTML = `
                 <span class="fechar-modal-produto" onclick="fecharDetalhesProduto()">&times;</span>
@@ -280,15 +292,7 @@
                     </div>
                     
                     <div class="thumbnails-container">
-                        <div class="thumb ativo" onclick="trocarImagem('${produto.imagens[0]}', this)">
-                            <img src="${produto.imagens[0]}" onerror="this.src='https://via.placeholder.com/80/e8e8e8/333?text=1'">
-                        </div>
-                        <div class="thumb" onclick="trocarImagem('${produto.imagens[1]}', this)">
-                            <img src="${produto.imagens[1]}" onerror="this.src='https://via.placeholder.com/80/e8e8e8/333?text=2'">
-                        </div>
-                        <div class="thumb" onclick="trocarImagem('${produto.imagens[2]}', this)">
-                            <img src="${produto.imagens[2]}" onerror="this.src='https://via.placeholder.com/80/e8e8e8/333?text=3'">
-                        </div>
+                        ${htmlMiniaturas}
                     </div>
                 </div>
 
@@ -300,7 +304,6 @@
                     <input type="text" id="nome-cliente" class="campo-input" placeholder="Seu Nome Completo" autocomplete="off">
 
                     <div class="row-inputs">
-                        <!-- ATUALIZADO COM OS TAMANHOS G1, G2 E G3 -->
                         <select id="tamanho-modal" class="campo-input">
                             <option value="" disabled selected>TAMANHO</option>
                             <option value="P">Tamanho P</option>
@@ -363,7 +366,6 @@
             
             db.collection("pedidos").add(novoPedidoERP).catch(err => console.error("Erro Nuvem:", err));
 
-            // Continua a enviar a foto número 1 (capa) para o WhatsApp
             const nomeImagemSafe = encodeURIComponent(nomeImagem);
             const linkDaFoto = `${dominioDoSite}${nomeImagemSafe}`;
             
