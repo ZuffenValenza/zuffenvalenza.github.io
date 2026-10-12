@@ -19,7 +19,7 @@
             --text-main: #f0f0f0;
             --text-muted: #8a8a93;
             --border-glass: rgba(255, 255, 255, 0.08);
-            --studio-light: #e8e8e8; 
+            --studio-light: #000000; 
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -51,8 +51,29 @@
         .logo-topo { max-width: 250px; width: 100%; display: block; margin: 0 auto; filter: drop-shadow(0 0 15px rgba(212,175,55,0.2)); }
         .tagline-marca { font-family: 'Montserrat', sans-serif; font-size: 0.65rem; font-weight: 300; color: var(--brand-gold); letter-spacing: 5px; text-transform: uppercase; margin-top: 15px; opacity: 0.9; }
 
-        .container-produtos { max-width: 1300px; margin: 40px auto; padding: 0 20px; }
-        .secao-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; flex-wrap: wrap; gap: 20px; }
+        /* NOVO MENU DE FILTROS */
+        .filtros-container {
+            display: flex; gap: 12px; justify-content: center; align-items: center;
+            margin: 30px auto; flex-wrap: wrap; padding: 0 20px; max-width: 1300px;
+        }
+        .btn-filtro {
+            background: transparent; border: 1px solid var(--border-glass);
+            color: var(--text-muted); padding: 8px 24px; border-radius: 30px;
+            cursor: pointer; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        .btn-filtro:hover { border-color: rgba(212,175,55,0.5); color: #fff; }
+        .btn-filtro.ativo { border-color: var(--brand-gold); color: var(--brand-gold); }
+        
+        .link-medidas {
+            color: #fff; text-decoration: none; font-size: 0.95rem; font-weight: 600;
+            display: flex; align-items: center; gap: 6px; margin-left: 20px; 
+            border-bottom: 2px solid #fff; padding-bottom: 2px; cursor: pointer; transition: 0.3s;
+        }
+        .link-medidas:hover { color: var(--brand-gold); border-color: var(--brand-gold); }
+
+        .container-produtos { max-width: 1300px; margin: 20px auto 40px; padding: 0 20px; }
+        .secao-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 20px; }
         .titulo-secao { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; font-weight: 700; color: #fff; letter-spacing: 1px; }
 
         .galeria { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 35px; padding-bottom: 40px; }
@@ -69,29 +90,40 @@
             width: 100%; height: 320px; background-color: var(--studio-light); border-radius: 10px;
             display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 20px;
         }
-        .card-vitrine img { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply; transition: transform 0.5s; }
+        .card-vitrine img { width: 100%; height: 100%; object-fit: contain; transition: transform 0.5s; }
         .card-vitrine:hover img { transform: scale(1.05); }
         .card-vitrine .nome { font-size: 1rem; font-weight: 400; color: #fff; margin-bottom: 8px; letter-spacing: 0.5px; }
         .card-vitrine .preco { font-family: 'Montserrat', sans-serif; font-size: 1.25rem; font-weight: 700; color: var(--brand-gold); }
 
-        /* MODAL DE PRODUTO */
-        .modal-produto-fundo {
+        /* MODAIS */
+        .modal-fundo {
             display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.85); align-items: center; justify-content: center; 
             backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
         }
-        .modal-produto-fundo.ativo { display: flex; animation: fadeIn 0.3s ease-out; }
-        .modal-produto-conteudo {
+        .modal-fundo.ativo { display: flex; animation: fadeIn 0.3s ease-out; }
+        .modal-conteudo {
             background: var(--surface-dark); border: 1px solid var(--border-glass);
             width: 95%; max-width: 950px; max-height: 90vh; border-radius: 20px; 
             overflow-y: auto; position: relative; display: flex; flex-wrap: wrap;
             box-shadow: 0 30px 60px rgba(0,0,0,0.9);
         }
-        .fechar-modal-produto {
+        .modal-conteudo-medidas {
+            background: var(--surface-dark); border: 1px solid var(--border-glass);
+            width: 95%; max-width: 600px; border-radius: 20px; padding: 40px;
+            position: relative; box-shadow: 0 30px 60px rgba(0,0,0,0.9); text-align: center;
+        }
+        .fechar-modal {
             position: absolute; right: 25px; top: 20px; font-size: 32px; color: var(--text-muted); 
             cursor: pointer; z-index: 10; transition: 0.3s; line-height: 1;
         }
-        .fechar-modal-produto:hover { color: var(--brand-gold); transform: rotate(90deg); }
+        .fechar-modal:hover { color: var(--brand-gold); transform: rotate(90deg); }
+
+        /* TABELA DE MEDIDAS */
+        .tabela-medidas { width: 100%; border-collapse: collapse; margin-top: 25px; color: #fff; }
+        .tabela-medidas th { background-color: rgba(212,175,55,0.1); color: var(--brand-gold); padding: 15px; font-family: 'Montserrat', sans-serif; border: 1px solid var(--border-glass); }
+        .tabela-medidas td { padding: 12px; border: 1px solid var(--border-glass); }
+        .tabela-medidas tr:nth-child(even) { background-color: rgba(255,255,255,0.02); }
 
         .galeria-produto {
             flex: 1 1 450px; padding: 40px; background-color: rgba(0,0,0,0.2); 
@@ -101,9 +133,8 @@
             width: 100%; max-width: 400px; height: 400px; background-color: var(--studio-light);
             border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px;
         }
-        .imagem-principal-box img { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply; border-radius: 12px; transition: 0.3s; }
+        .imagem-principal-box img { width: 100%; height: 100%; object-fit: contain; border-radius: 12px; transition: 0.3s; }
         
-        /* MINIATURAS */
         .thumbnails-container {
             display: flex; gap: 15px; width: 100%; max-width: 400px; justify-content: center; flex-wrap: wrap;
         }
@@ -112,7 +143,7 @@
             cursor: pointer; display: flex; align-items: center; justify-content: center;
             border: 2px solid transparent; transition: 0.3s; overflow: hidden;
         }
-        .thumb img { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply; }
+        .thumb img { width: 100%; height: 100%; object-fit: contain; }
         .thumb:hover, .thumb.ativo { border-color: var(--brand-gold); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(212,175,55,0.2); }
 
         .info-produto { flex: 1 1 350px; padding: 50px 40px; display: flex; flex-direction: column; justify-content: center; }
@@ -120,7 +151,6 @@
         .info-produto .ref { font-size: 0.8rem; color: var(--brand-gold); margin-bottom: 25px; text-transform: uppercase; letter-spacing: 2px; }
         .info-produto .preco-grande { font-family: 'Montserrat', sans-serif; font-size: 2.2rem; font-weight: 700; color: #fff; margin-bottom: 25px; }
 
-        /* CAMPOS DE COMPRA */
         .campo-input {
             width: 100%; padding: 16px; margin-bottom: 15px; background-color: rgba(0,0,0,0.3);
             border: 1px solid var(--border-glass); border-radius: 8px; color: #fff;
@@ -142,10 +172,11 @@
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
         
         @media (max-width: 768px) {
-            .modal-produto-conteudo { flex-direction: column; }
+            .modal-conteudo { flex-direction: column; }
             .galeria-produto { padding: 30px 20px; border-right: none; border-bottom: 1px solid var(--border-glass); }
             .info-produto { padding: 30px 20px; }
             .imagem-principal-box { height: 350px; }
+            .link-medidas { margin-left: 0; margin-top: 10px; width: 100%; justify-content: center; }
         }
     </style>
 </head>
@@ -156,15 +187,24 @@
         <p class="tagline-marca">ELEVANDO O PADRÃO DO STREETWEAR</p>
     </header>
 
+    <!-- MENU DE FILTROS E GUIA DE MEDIDAS -->
+    <div class="filtros-container">
+        <button class="btn-filtro ativo" onclick="filtrarGaleria('todos', this)">Todos</button>
+        <button class="btn-filtro" onclick="filtrarGaleria('oriental', this)">Oriental & Mangá</button>
+        <button class="btn-filtro" onclick="filtrarGaleria('urban', this)">Urban</button>
+        <button class="btn-filtro" onclick="filtrarGaleria('minimal', this)">Minimal</button>
+        <a class="link-medidas" onclick="abrirModalMedidas()">📐 Guia de Medidas</a>
+    </div>
+
     <div class="container-produtos">
         <!-- SECÇÃO 1: PREMIUM -->
-        <div class="secao-header">
+        <div class="secao-header" id="header-premium">
             <h2 class="titulo-secao">ACERVO PREMIUM</h2>
         </div>
         <main class="galeria" id="galeria-premium"></main>
 
         <!-- SECÇÃO 2: DEVOTION -->
-        <div class="secao-header" style="margin-top: 60px; text-align: center; justify-content: center; border-top: 1px solid var(--border-glass); padding-top: 60px;">
+        <div class="secao-header" id="header-devotion" style="margin-top: 40px; text-align: center; justify-content: center; border-top: 1px solid var(--border-glass); padding-top: 60px;">
             <h2 class="titulo-secao" style="color: var(--brand-gold); font-size: 2.2rem; letter-spacing: 6px;">SÉRIE DEVOTION</h2>
             <p style="color: var(--text-muted); font-size: 0.8rem; width: 100%; text-transform: uppercase; letter-spacing: 3px; margin-top: 10px;">Encontre o seu santuário</p>
         </div>
@@ -172,9 +212,38 @@
     </div>
 
     <!-- MODAL DE COMPRA -->
-    <div id="modal-produto" class="modal-produto-fundo">
-        <div class="modal-produto-conteudo" id="conteudo-produto">
+    <div id="modal-produto" class="modal-fundo">
+        <div class="modal-conteudo" id="conteudo-produto">
             <!-- Gerado via JavaScript -->
+        </div>
+    </div>
+
+    <!-- MODAL GUIA DE MEDIDAS -->
+    <div id="modal-medidas" class="modal-fundo">
+        <div class="modal-conteudo-medidas">
+            <span class="fechar-modal" onclick="fecharModalMedidas()">&times;</span>
+            <h2 style="font-family: 'Montserrat', sans-serif; color: #fff; margin-bottom: 5px;">GUIA DE MEDIDAS</h2>
+            <p style="color: var(--brand-gold); font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 25px;">T-SHIRTS OVERSIZED / PREMIUM</p>
+            
+            <table class="tabela-medidas">
+                <thead>
+                    <tr>
+                        <th>Tamanho</th>
+                        <th>Largura (cm)</th>
+                        <th>Altura (cm)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>P</td><td>52</td><td>70</td></tr>
+                    <tr><td>M</td><td>54</td><td>72</td></tr>
+                    <tr><td>G</td><td>56</td><td>74</td></tr>
+                    <tr><td>GG</td><td>58</td><td>76</td></tr>
+                    <tr><td>G1</td><td>62</td><td>80</td></tr>
+                    <tr><td>G2</td><td>66</td><td>82</td></tr>
+                    <tr><td>G3</td><td>70</td><td>84</td></tr>
+                </tbody>
+            </table>
+            <p style="color: var(--text-muted); font-size: 0.75rem; margin-top: 20px;">*As medidas podem variar em até 2cm para mais ou para menos após a primeira lavagem.</p>
         </div>
     </div>
 
@@ -199,34 +268,34 @@
         const precoFixo = 89.90;
         const precoFormatado = precoFixo.toFixed(2).replace('.', ',');
         const numeroWhatsApp = "5547996720018";
-        
         const dominioDoSite = "https://zuffenvalenza.github.io/"; 
 
+        // Adicionado atributo 'tag' para os filtros do menu
         const estampas = [
             // ACERVO PREMIUM
-            { id: 'ZV-001', nome: 'Skulls & Tricks "Jumps"', imagens: ['ZV-001.png', 'ZV-001-2.png', 'ZV-001-3.png'], categoria: 'premium' },
-            { id: 'ZV-002', nome: 'Grizzly "Bold Streets"', imagens: ['ZV-002.png', 'ZV-002-2.png', 'ZV-002-3.png'], categoria: 'premium' },
-            { id: 'ZV-003', nome: 'Primal Instinct', imagens: ['ZV-003.png', 'ZV-003-2.png', 'ZV-003-3.png'], categoria: 'premium' },
-            { id: 'ZV-004', nome: 'Neon Tiger "Furious"', imagens: ['ZV-004.png', 'ZV-004-2.png', 'ZV-004-3.png'], categoria: 'premium' },
-            { id: 'ZV-005', nome: 'Knockout "Passion"', imagens: ['ZV-005.png', 'ZV-005-2.png', 'ZV-005-3.png'], categoria: 'premium' },
-            { id: 'ZV-006', nome: 'King Of The Street', imagens: ['ZV-006.png', 'ZV-006-2.png', 'ZV-006-3.png'], categoria: 'premium' },
-            { id: 'ZV-007', nome: 'Urban Chameleon', imagens: ['ZV-007.png', 'ZV-007-2.png', 'ZV-007-3.png'], categoria: 'premium' },
-            { id: 'ZV-008', nome: 'Hustle Shark', imagens: ['ZV-008.png', 'ZV-008-2.png', 'ZV-008-3.png'], categoria: 'premium' },
-            { id: 'ZV-009', nome: 'Silenced Liberty', imagens: ['ZV-009.png', 'ZV-009-2.png', 'ZV-009-3.png'], categoria: 'premium' },
-            { id: 'ZV-010', nome: 'Devotion "Liberate"', imagens: ['ZV-010.png', 'ZV-010-2.png', 'ZV-010-3.png'], categoria: 'premium' },
-            { id: 'ZV-011', nome: 'Lunar Dove "Dream"', imagens: ['ZV-011.png', 'ZV-011-2.png', 'ZV-011-3.png'], categoria: 'premium' },
-            { id: 'ZV-012', nome: 'Dollar Cherub', imagens: ['ZV-012.png', 'ZV-012-2.png', 'ZV-012-3.png'], categoria: 'premium' },
-            { id: 'ZV-013', nome: 'Rich Baby O.G.', imagens: ['ZV-013.png', 'ZV-013-2.png', 'ZV-013-3.png'], categoria: 'premium' },
-            { id: 'ZV-014', nome: 'Rebel Archangel', imagens: ['ZV-014.png', 'ZV-014-2.png', 'ZV-014-3.png'], categoria: 'premium' },
+            { id: 'ZV-001', nome: 'Skulls & Tricks "Jumps"', imagens: ['ZV-001.png', 'ZV-001-2.png', 'ZV-001-3.png'], categoria: 'premium', tag: 'urban' },
+            { id: 'ZV-002', nome: 'Grizzly "Bold Streets"', imagens: ['ZV-002.png', 'ZV-002-2.png', 'ZV-002-3.png'], categoria: 'premium', tag: 'urban' },
+            { id: 'ZV-003', nome: 'Primal Instinct', imagens: ['ZV-003.png', 'ZV-003-2.png', 'ZV-003-3.png'], categoria: 'premium', tag: 'urban' },
+            { id: 'ZV-004', nome: 'Neon Tiger "Furious"', imagens: ['ZV-004.png', 'ZV-004-2.png', 'ZV-004-3.png'], categoria: 'premium', tag: 'oriental' },
+            { id: 'ZV-005', nome: 'Knockout "Passion"', imagens: ['ZV-005.png', 'ZV-005-2.png', 'ZV-005-3.png'], categoria: 'premium', tag: 'urban' },
+            { id: 'ZV-006', nome: 'King Of The Street', imagens: ['ZV-006.png', 'ZV-006-2.png', 'ZV-006-3.png'], categoria: 'premium', tag: 'minimal' },
+            { id: 'ZV-007', nome: 'Urban Chameleon', imagens: ['ZV-007.png', 'ZV-007-2.png', 'ZV-007-3.png'], categoria: 'premium', tag: 'urban' },
+            { id: 'ZV-008', nome: 'Hustle Shark', imagens: ['ZV-008.png', 'ZV-008-2.png', 'ZV-008-3.png'], categoria: 'premium', tag: 'urban' },
+            { id: 'ZV-009', nome: 'Silenced Liberty', imagens: ['ZV-009.png', 'ZV-009-2.png', 'ZV-009-3.png'], categoria: 'premium', tag: 'minimal' },
+            { id: 'ZV-010', nome: 'Devotion "Liberate"', imagens: ['ZV-010.png', 'ZV-010-2.png', 'ZV-010-3.png'], categoria: 'premium', tag: 'minimal' },
+            { id: 'ZV-011', nome: 'Lunar Dove "Dream"', imagens: ['ZV-011.png', 'ZV-011-2.png', 'ZV-011-3.png'], categoria: 'premium', tag: 'oriental' },
+            { id: 'ZV-012', nome: 'Dollar Cherub', imagens: ['ZV-012.png', 'ZV-012-2.png', 'ZV-012-3.png'], categoria: 'premium', tag: 'minimal' },
+            { id: 'ZV-013', nome: 'Rich Baby O.G.', imagens: ['ZV-013.png', 'ZV-013-2.png', 'ZV-013-3.png'], categoria: 'premium', tag: 'urban' },
+            { id: 'ZV-014', nome: 'Rebel Archangel', imagens: ['ZV-014.png', 'ZV-014-2.png', 'ZV-014-3.png'], categoria: 'premium', tag: 'oriental' },
             
-            // SÉRIE DEVOTION
-            { id: 'ZV-015', nome: 'Eu Encontrei Jesus', imagens: ['eu encontrei jesus.png', 'ZV-015.png', 'ZV-015-1.png'], categoria: 'devotion' },
-            { id: 'ZV-016', nome: 'Jesus Typography', imagens: ['Jesus Typography.png', 'ZV-016.png', 'ZV-016-1.png'], categoria: 'devotion' },
-            { id: 'ZV-017', nome: 'Jesus Find Peace', imagens: ['jesus find peace.png', 'ZV-017.png', 'ZV-017-1.png'], categoria: 'devotion' },
-            { id: 'ZV-018', nome: 'Jesus Christ', imagens: ['Jesus Christ.png', 'ZV-018.png', 'ZV-018-1.png'], categoria: 'devotion' },
-            { id: 'ZV-019', nome: 'Angelic Justice', imagens: ['Angelic Justice.png', 'ZV-019.png', 'ZV-019-1.png'], categoria: 'devotion' },
-            { id: 'ZV-020', nome: 'Celebrate Hope', imagens: ['Celebrate Hope.png', 'ZV-020.png', 'ZV-020-1.png'], categoria: 'devotion' },
-            { id: 'ZV-021', nome: 'The Way, The Truth, The Life', imagens: ['Jesus.png', 'ZV-021.png', 'ZV-021-1.png'], categoria: 'devotion' }
+            // SÉRIE DEVOTION (Sempre exibidas, independentes dos filtros ou podem receber tag 'minimal')
+            { id: 'ZV-015', nome: 'Eu Encontrei Jesus', imagens: ['eu encontrei jesus.png', 'ZV-015.png', 'ZV-015-1.png'], categoria: 'devotion', tag: 'minimal' },
+            { id: 'ZV-016', nome: 'Jesus Typography', imagens: ['Jesus Typography.png', 'ZV-016.png', 'ZV-016-1.png'], categoria: 'devotion', tag: 'minimal' },
+            { id: 'ZV-017', nome: 'Jesus Find Peace', imagens: ['jesus find peace.png', 'ZV-017.png', 'ZV-017-1.png'], categoria: 'devotion', tag: 'minimal' },
+            { id: 'ZV-018', nome: 'Jesus Christ', imagens: ['Jesus Christ.png', 'ZV-018.png', 'ZV-018-1.png'], categoria: 'devotion', tag: 'minimal' },
+            { id: 'ZV-019', nome: 'Angelic Justice', imagens: ['Angelic Justice.png', 'ZV-019.png', 'ZV-019-1.png'], categoria: 'devotion', tag: 'minimal' },
+            { id: 'ZV-020', nome: 'Celebrate Hope', imagens: ['Celebrate Hope.png', 'ZV-020.png', 'ZV-020-1.png'], categoria: 'devotion', tag: 'minimal' },
+            { id: 'ZV-021', nome: 'The Way, The Truth, The Life', imagens: ['Jesus.png', 'ZV-021.png', 'ZV-021-1.png'], categoria: 'devotion', tag: 'minimal' }
         ];
 
         function renderizarGaleria() {
@@ -237,11 +306,11 @@
             galeriaDevotion.innerHTML = '';
 
             estampas.forEach((estampa) => {
+                // Adicionamos o atributo data-tag para o filtro do Javascript funcionar
                 const cardHTML = `
-                    <div class="card-vitrine" onclick="abrirDetalhesProduto('${estampa.id}')">
+                    <div class="card-vitrine" data-tag="${estampa.tag}" onclick="abrirDetalhesProduto('${estampa.id}')">
                         <div class="img-container">
-                            <!-- A primeira imagem do array é a capa -->
-                            <img src="${estampa.imagens[0]}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x400/e8e8e8/333?text=ZV'">
+                            <img src="${estampa.imagens[0]}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x400/000/333?text=ZV'">
                         </div>
                         <div class="nome">${estampa.nome}</div>
                         <div class="preco">R$ ${precoFormatado}</div>
@@ -256,11 +325,49 @@
             });
         }
 
-        // Função para trocar a imagem principal no clique da miniatura
+        // ==========================================
+        // SISTEMA DE FILTRO DO MENU
+        // ==========================================
+        window.filtrarGaleria = function(tagEscolhida, botaoClicado) {
+            // 1. Atualizar as cores dos botões (remover dourado de todos e colocar no clicado)
+            document.querySelectorAll('.btn-filtro').forEach(btn => btn.classList.remove('ativo'));
+            botaoClicado.classList.add('ativo');
+
+            // 2. Esconder ou Mostrar os cards baseados na Tag
+            const cards = document.querySelectorAll('.card-vitrine');
+            let encontrouPremium = false;
+            let encontrouDevotion = false;
+
+            cards.forEach(card => {
+                if(tagEscolhida === 'todos' || card.getAttribute('data-tag') === tagEscolhida) {
+                    card.style.display = 'block';
+                    // Verifica em qual galeria este card visível está para controlar os Títulos
+                    if(card.parentElement.id === 'galeria-premium') encontrouPremium = true;
+                    if(card.parentElement.id === 'galeria-devotion') encontrouDevotion = true;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // 3. Esconder os títulos das sessões se não houver nenhuma camisa visível nela
+            document.getElementById('header-premium').style.display = encontrouPremium ? 'flex' : 'none';
+            document.getElementById('header-devotion').style.display = encontrouDevotion ? 'flex' : 'none';
+        }
+
+        // ==========================================
+        // SISTEMA DE MODAIS (MEDIDAS E PRODUTOS)
+        // ==========================================
+        window.abrirModalMedidas = function() {
+            document.getElementById('modal-medidas').classList.add('ativo');
+            document.body.style.overflow = 'hidden'; 
+        }
+        window.fecharModalMedidas = function() {
+            document.getElementById('modal-medidas').classList.remove('ativo');
+            document.body.style.overflow = 'auto'; 
+        }
+
         window.trocarImagem = function(srcFoto, elementoThumb) {
             document.getElementById('img-principal-modal').src = srcFoto;
-            
-            // Remove a classe ativo de todas e coloca na clicada
             document.querySelectorAll('.thumb').forEach(t => t.classList.remove('ativo'));
             if(elementoThumb) elementoThumb.classList.add('ativo');
         }
@@ -268,11 +375,8 @@
         function abrirDetalhesProduto(idProduto) {
             const produto = estampas.find(e => e.id === idProduto);
             const containerModal = document.getElementById('conteudo-produto');
-            
-            // Corrige o bug das aspas no nome do produto
             const nomeSeguro = produto.nome.replace(/"/g, '&quot;');
             
-            // Constrói as miniaturas automaticamente com base nas imagens disponíveis no array
             let htmlMiniaturas = '';
             produto.imagens.forEach((img, index) => {
                 let classeAtivo = index === 0 ? 'ativo' : '';
@@ -284,11 +388,11 @@
             });
             
             containerModal.innerHTML = `
-                <span class="fechar-modal-produto" onclick="fecharDetalhesProduto()">&times;</span>
+                <span class="fechar-modal" onclick="fecharDetalhesProduto()">&times;</span>
                 
                 <div class="galeria-produto">
                     <div class="imagem-principal-box">
-                        <img src="${produto.imagens[0]}" id="img-principal-modal" onerror="this.src='https://via.placeholder.com/400/e8e8e8/333?text=IMAGEM+1'">
+                        <img src="${produto.imagens[0]}" id="img-principal-modal" onerror="this.src='https://via.placeholder.com/400/000/333?text=IMAGEM+1'">
                     </div>
                     
                     <div class="thumbnails-container">
@@ -331,14 +435,10 @@
             document.getElementById('modal-produto').classList.add('ativo');
         }
 
-        // ==========================================
-        // O MOTOR DE AUTOMAÇÃO (LOJA -> NUVEM -> WHATSAPP)
-        // ==========================================
         window.enviarPedidoAutomatizado = function(idEstampa, nomeEstampa, nomeImagem) {
             const nomeCliente = document.getElementById('nome-cliente').value.trim();
             const tamanho = document.getElementById('tamanho-modal').value;
             const qtd = parseInt(document.getElementById('qtd-modal').value);
-
             const nomeEstampaOriginal = nomeEstampa.replace(/&quot;/g, '"');
 
             if (!nomeCliente) { alert("Por favor, informe o seu nome para continuarmos."); document.getElementById('nome-cliente').focus(); return; }
@@ -387,8 +487,10 @@
             document.body.style.overflow = 'auto'; 
         }
 
+        // Fecha os modais se clicar fora da caixa central
         window.onclick = function(event) {
             if (event.target == document.getElementById('modal-produto')) fecharDetalhesProduto();
+            if (event.target == document.getElementById('modal-medidas')) fecharModalMedidas();
         }
 
         window.onload = renderizarGaleria;
