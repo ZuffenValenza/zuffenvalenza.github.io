@@ -55,7 +55,7 @@
         .secao-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; flex-wrap: wrap; gap: 20px; }
         .titulo-secao { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; font-weight: 700; color: #fff; letter-spacing: 1px; }
 
-        .galeria { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 35px; padding-bottom: 80px; }
+        .galeria { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 35px; padding-bottom: 40px; }
         .card-vitrine {
             background: var(--surface-dark); border: 1px solid var(--border-glass); border-radius: 16px;
             padding: 12px; cursor: pointer; transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); text-align: center;
@@ -69,7 +69,7 @@
             width: 100%; height: 320px; background-color: var(--studio-light); border-radius: 10px;
             display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 20px;
         }
-        .card-vitrine img { width: 100%; height: 100%; object-fit: cover; mix-blend-mode: multiply; transition: transform 0.5s; }
+        .card-vitrine img { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply; transition: transform 0.5s; }
         .card-vitrine:hover img { transform: scale(1.05); }
         .card-vitrine .nome { font-size: 1rem; font-weight: 400; color: #fff; margin-bottom: 8px; letter-spacing: 0.5px; }
         .card-vitrine .preco { font-family: 'Montserrat', sans-serif; font-size: 1.25rem; font-weight: 700; color: var(--brand-gold); }
@@ -98,11 +98,23 @@
             border-right: 1px solid var(--border-glass); display: flex; flex-direction: column; align-items: center;
         }
         .imagem-principal-box {
-            width: 100%; max-width: 400px; height: 450px; background-color: var(--studio-light);
-            border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 25px;
+            width: 100%; max-width: 400px; height: 400px; background-color: var(--studio-light);
+            border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px;
         }
-        .imagem-principal-box img { width: 100%; height: 100%; object-fit: cover; mix-blend-mode: multiply; border-radius: 12px; }
+        .imagem-principal-box img { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply; border-radius: 12px; transition: 0.3s; }
         
+        /* MINIATURAS */
+        .thumbnails-container {
+            display: flex; gap: 15px; width: 100%; max-width: 400px; justify-content: center;
+        }
+        .thumb {
+            width: 80px; height: 80px; background-color: var(--studio-light); border-radius: 8px;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            border: 2px solid transparent; transition: 0.3s; overflow: hidden;
+        }
+        .thumb img { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply; }
+        .thumb:hover, .thumb.ativo { border-color: var(--brand-gold); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(212,175,55,0.2); }
+
         .info-produto { flex: 1 1 350px; padding: 50px 40px; display: flex; flex-direction: column; justify-content: center; }
         .info-produto h2 { font-family: 'Montserrat', sans-serif; font-size: 2rem; margin-bottom: 5px; color: #fff; font-weight: 700; }
         .info-produto .ref { font-size: 0.8rem; color: var(--brand-gold); margin-bottom: 25px; text-transform: uppercase; letter-spacing: 2px; }
@@ -145,10 +157,18 @@
     </header>
 
     <div class="container-produtos">
+        <!-- SECÇÃO 1: PREMIUM -->
         <div class="secao-header">
             <h2 class="titulo-secao">ACERVO PREMIUM</h2>
         </div>
-        <main class="galeria" id="galeria"></main>
+        <main class="galeria" id="galeria-premium"></main>
+
+        <!-- SECÇÃO 2: DEVOTION -->
+        <div class="secao-header" style="margin-top: 60px; text-align: center; justify-content: center; border-top: 1px solid var(--border-glass); padding-top: 60px;">
+            <h2 class="titulo-secao" style="color: var(--brand-gold); font-size: 2.2rem; letter-spacing: 6px;">SÉRIE DEVOTION</h2>
+            <p style="color: var(--text-muted); font-size: 0.8rem; width: 100%; text-transform: uppercase; letter-spacing: 3px; margin-top: 10px;">Encontre o seu santuário</p>
+        </div>
+        <main class="galeria" id="galeria-devotion" style="padding-bottom: 80px;"></main>
     </div>
 
     <!-- MODAL DE COMPRA -->
@@ -180,47 +200,75 @@
         const precoFormatado = precoFixo.toFixed(2).replace('.', ',');
         const numeroWhatsApp = "5547996720018";
         
-        // Domínio oficial para puxar a foto no WhatsApp
         const dominioDoSite = "https://zuffenvalenza.github.io/"; 
 
         const estampas = [
-            { id: 'ZV-001', nome: 'Skulls & Tricks "Jumps"', imagens: ['ZV-001.png'] },
-            { id: 'ZV-002', nome: 'Grizzly "Bold Streets"', imagens: ['ZV-002.png'] },
-            { id: 'ZV-003', nome: 'Primal Instinct', imagens: ['ZV-003.png'] },
-            { id: 'ZV-004', nome: 'Neon Tiger "Furious"', imagens: ['ZV-004.png'] },
-            { id: 'ZV-005', nome: 'Knockout "Passion"', imagens: ['ZV-005.png'] },
-            { id: 'ZV-006', nome: 'King Of The Street', imagens: ['ZV-006.png'] },
-            { id: 'ZV-007', nome: 'Urban Chameleon', imagens: ['ZV-007.png'] },
-            { id: 'ZV-008', nome: 'Hustle Shark', imagens: ['ZV-008.png'] },
-            { id: 'ZV-009', nome: 'Silenced Liberty', imagens: ['ZV-009.png'] },
-            { id: 'ZV-010', nome: 'Devotion "Liberate"', imagens: ['ZV-010.png'] },
-            { id: 'ZV-011', nome: 'Lunar Dove "Dream"', imagens: ['ZV-011.png'] },
-            { id: 'ZV-012', nome: 'Dollar Cherub', imagens: ['ZV-012.png'] },
-            { id: 'ZV-013', nome: 'Rich Baby O.G.', imagens: ['ZV-013.png'] },
-            { id: 'ZV-014', nome: 'Rebel Archangel', imagens: ['ZV-014.png'] }
+            // ACERVO PREMIUM
+            { id: 'ZV-001', nome: 'Skulls & Tricks "Jumps"', imagens: ['ZV-001.png', 'ZV-001_2.png', 'ZV-001_3.png'], categoria: 'premium' },
+            { id: 'ZV-002', nome: 'Grizzly "Bold Streets"', imagens: ['ZV-002.png', 'ZV-002_2.png', 'ZV-002_3.png'], categoria: 'premium' },
+            { id: 'ZV-003', nome: 'Primal Instinct', imagens: ['ZV-003.png', 'ZV-003_2.png', 'ZV-003_3.png'], categoria: 'premium' },
+            { id: 'ZV-004', nome: 'Neon Tiger "Furious"', imagens: ['ZV-004.png', 'ZV-004_2.png', 'ZV-004_3.png'], categoria: 'premium' },
+            { id: 'ZV-005', nome: 'Knockout "Passion"', imagens: ['ZV-005.png', 'ZV-005_2.png', 'ZV-005_3.png'], categoria: 'premium' },
+            { id: 'ZV-006', nome: 'King Of The Street', imagens: ['ZV-006.png', 'ZV-006_2.png', 'ZV-006_3.png'], categoria: 'premium' },
+            { id: 'ZV-007', nome: 'Urban Chameleon', imagens: ['ZV-007.png', 'ZV-007_2.png', 'ZV-007_3.png'], categoria: 'premium' },
+            { id: 'ZV-008', nome: 'Hustle Shark', imagens: ['ZV-008.png', 'ZV-008_2.png', 'ZV-008_3.png'], categoria: 'premium' },
+            { id: 'ZV-009', nome: 'Silenced Liberty', imagens: ['ZV-009.png', 'ZV-009_2.png', 'ZV-009_3.png'], categoria: 'premium' },
+            { id: 'ZV-010', nome: 'Devotion "Liberate"', imagens: ['ZV-010.png', 'ZV-010_2.png', 'ZV-010_3.png'], categoria: 'premium' },
+            { id: 'ZV-011', nome: 'Lunar Dove "Dream"', imagens: ['ZV-011.png', 'ZV-011_2.png', 'ZV-011_3.png'], categoria: 'premium' },
+            { id: 'ZV-012', nome: 'Dollar Cherub', imagens: ['ZV-012.png', 'ZV-012_2.png', 'ZV-012_3.png'], categoria: 'premium' },
+            { id: 'ZV-013', nome: 'Rich Baby O.G.', imagens: ['ZV-013.png', 'ZV-013_2.png', 'ZV-013_3.png'], categoria: 'premium' },
+            { id: 'ZV-014', nome: 'Rebel Archangel', imagens: ['ZV-014.png', 'ZV-014_2.png', 'ZV-014_3.png'], categoria: 'premium' },
+            
+            // SÉRIE DEVOTION
+            { id: 'ZV-015', nome: 'Eu Encontrei Jesus', imagens: ['eu encontrei jesus.png', 'eu encontrei jesus_2.png', 'eu encontrei jesus_3.png'], categoria: 'devotion' },
+            { id: 'ZV-016', nome: 'Jesus Typography', imagens: ['Jesus Typography.png', 'Jesus Typography_2.png', 'Jesus Typography_3.png'], categoria: 'devotion' },
+            { id: 'ZV-017', nome: 'Jesus Find Peace', imagens: ['jesus find peace.png', 'jesus find peace_2.png', 'jesus find peace_3.png'], categoria: 'devotion' },
+            { id: 'ZV-018', nome: 'Jesus Christ', imagens: ['Jesus Christ.png', 'Jesus Christ_2.png', 'Jesus Christ_3.png'], categoria: 'devotion' },
+            { id: 'ZV-019', nome: 'Angelic Justice', imagens: ['Angelic Justice.png', 'Angelic Justice_2.png', 'Angelic Justice_3.png'], categoria: 'devotion' },
+            { id: 'ZV-020', nome: 'Celebrate Hope', imagens: ['Celebrate Hope.png', 'Celebrate Hope_2.png', 'Celebrate Hope_3.png'], categoria: 'devotion' },
+            { id: 'ZV-021', nome: 'The Way, The Truth, The Life', imagens: ['Jesus.png', 'Jesus_2.png', 'Jesus_3.png'], categoria: 'devotion' }
         ];
 
         function renderizarGaleria() {
-            const galeria = document.getElementById('galeria');
-            galeria.innerHTML = ''; 
+            const galeriaPremium = document.getElementById('galeria-premium');
+            const galeriaDevotion = document.getElementById('galeria-devotion');
+            
+            galeriaPremium.innerHTML = ''; 
+            galeriaDevotion.innerHTML = '';
+
             estampas.forEach((estampa) => {
-                galeria.innerHTML += `
+                const cardHTML = `
                     <div class="card-vitrine" onclick="abrirDetalhesProduto('${estampa.id}')">
                         <div class="img-container">
+                            <!-- A primeira imagem do array é a capa -->
                             <img src="${estampa.imagens[0]}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x400/e8e8e8/333?text=ZV'">
                         </div>
                         <div class="nome">${estampa.nome}</div>
                         <div class="preco">R$ ${precoFormatado}</div>
                     </div>
                 `;
+
+                if(estampa.categoria === 'premium') {
+                    galeriaPremium.innerHTML += cardHTML;
+                } else if (estampa.categoria === 'devotion') {
+                    galeriaDevotion.innerHTML += cardHTML;
+                }
             });
+        }
+
+        // Função para trocar a imagem principal no clique da miniatura
+        window.trocarImagem = function(srcFoto, elementoThumb) {
+            document.getElementById('img-principal-modal').src = srcFoto;
+            
+            // Remove a classe ativo de todas e coloca na clicada
+            document.querySelectorAll('.thumb').forEach(t => t.classList.remove('ativo'));
+            if(elementoThumb) elementoThumb.classList.add('ativo');
         }
 
         function abrirDetalhesProduto(idProduto) {
             const produto = estampas.find(e => e.id === idProduto);
             const containerModal = document.getElementById('conteudo-produto');
             
-            // POKA-YOKE: Transforma aspas duplas em código HTML seguro para o clique não quebrar
             const nomeSeguro = produto.nome.replace(/"/g, '&quot;');
             
             containerModal.innerHTML = `
@@ -228,7 +276,19 @@
                 
                 <div class="galeria-produto">
                     <div class="imagem-principal-box">
-                        <img src="${produto.imagens[0]}" id="img-principal-modal">
+                        <img src="${produto.imagens[0]}" id="img-principal-modal" onerror="this.src='https://via.placeholder.com/400/e8e8e8/333?text=IMAGEM+1'">
+                    </div>
+                    
+                    <div class="thumbnails-container">
+                        <div class="thumb ativo" onclick="trocarImagem('${produto.imagens[0]}', this)">
+                            <img src="${produto.imagens[0]}" onerror="this.src='https://via.placeholder.com/80/e8e8e8/333?text=1'">
+                        </div>
+                        <div class="thumb" onclick="trocarImagem('${produto.imagens[1]}', this)">
+                            <img src="${produto.imagens[1]}" onerror="this.src='https://via.placeholder.com/80/e8e8e8/333?text=2'">
+                        </div>
+                        <div class="thumb" onclick="trocarImagem('${produto.imagens[2]}', this)">
+                            <img src="${produto.imagens[2]}" onerror="this.src='https://via.placeholder.com/80/e8e8e8/333?text=3'">
+                        </div>
                     </div>
                 </div>
 
@@ -240,18 +300,21 @@
                     <input type="text" id="nome-cliente" class="campo-input" placeholder="Seu Nome Completo" autocomplete="off">
 
                     <div class="row-inputs">
+                        <!-- ATUALIZADO COM OS TAMANHOS G1, G2 E G3 -->
                         <select id="tamanho-modal" class="campo-input">
                             <option value="" disabled selected>TAMANHO</option>
                             <option value="P">Tamanho P</option>
                             <option value="M">Tamanho M</option>
                             <option value="G">Tamanho G</option>
                             <option value="GG">Tamanho GG</option>
+                            <option value="G1">Tamanho G1</option>
+                            <option value="G2">Tamanho G2</option>
+                            <option value="G3">Tamanho G3</option>
                         </select>
 
                         <input type="number" id="qtd-modal" class="campo-input" value="1" min="1" placeholder="Qtd">
                     </div>
 
-                    <!-- Passando o nomeSeguro para não quebrar a função JavaScript -->
                     <button onclick="enviarPedidoAutomatizado('${produto.id}', '${nomeSeguro}', '${produto.imagens[0]}')" class="btn-comprar-modal">
                         FINALIZAR COMPRA
                     </button>
@@ -268,44 +331,41 @@
         // ==========================================
         // O MOTOR DE AUTOMAÇÃO (LOJA -> NUVEM -> WHATSAPP)
         // ==========================================
-        function enviarPedidoAutomatizado(idEstampa, nomeEstampa, nomeImagem) {
+        window.enviarPedidoAutomatizado = function(idEstampa, nomeEstampa, nomeImagem) {
             const nomeCliente = document.getElementById('nome-cliente').value.trim();
             const tamanho = document.getElementById('tamanho-modal').value;
             const qtd = parseInt(document.getElementById('qtd-modal').value);
 
-            // Reverte o &quot; para aspas normais apenas para gravar no banco e enviar no WhatsApp
             const nomeEstampaOriginal = nomeEstampa.replace(/&quot;/g, '"');
 
             if (!nomeCliente) { alert("Por favor, informe o seu nome para continuarmos."); document.getElementById('nome-cliente').focus(); return; }
             if (!tamanho) { alert("Por favor, selecione um tamanho."); document.getElementById('tamanho-modal').focus(); return; }
             if (!qtd || qtd < 1) { alert("Quantidade inválida."); return; }
 
-            // 1. GERAÇÃO DO CÓDIGO (SKU)
             const sku = `ZV-${idEstampa.split('-')[1]}-${tamanho}-${Math.floor(100 + Math.random() * 900)}`;
             const d = new Date();
             const dataHoje = d.toLocaleDateString('pt-BR');
             const mesAno = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
 
-            // 2. DISPARO INVISÍVEL PARA O SEU ERP (FIREBASE)
             const novoPedidoERP = {
                 sku: sku,
                 cliente: nomeCliente,
                 whatsapp: "Via Loja Online",
-                estampa: idEstampa,
+                estampa: idEstampa, 
                 tamanho: tamanho,
                 qtd: qtd,
                 preco: precoFixo,
-                status: 0, // Cai direto na coluna "1. NOVO PEDIDO"
+                status: 0, 
                 data: dataHoje,
                 mesAno: mesAno,
                 timestamp: Date.now()
             };
             
-            // Grava silenciosamente na Nuvem
             db.collection("pedidos").add(novoPedidoERP).catch(err => console.error("Erro Nuvem:", err));
 
-            // 3. PREPARAÇÃO DO TEXTO COM O LINK DA FOTO PARA O WHATSAPP
-            const linkDaFoto = `${dominioDoSite}${nomeImagem}`;
+            // Continua a enviar a foto número 1 (capa) para o WhatsApp
+            const nomeImagemSafe = encodeURIComponent(nomeImagem);
+            const linkDaFoto = `${dominioDoSite}${nomeImagemSafe}`;
             
             const textoWhatsApp = `Olá, Zuffen & Valenza! Sou o *${nomeCliente}* e quero finalizar a minha compra:\n\n` +
                                   `▸ *Peça:* ${nomeEstampaOriginal} (${idEstampa})\n` +
@@ -316,12 +376,11 @@
 
             const urlFinal = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(textoWhatsApp)}`;
             
-            // Fecha a janela e abre o WhatsApp
             fecharDetalhesProduto();
             window.open(urlFinal, '_blank');
         }
 
-        function fecharDetalhesProduto() { 
+        window.fecharDetalhesProduto = function() { 
             document.getElementById('modal-produto').classList.remove('ativo'); 
             document.body.style.overflow = 'auto'; 
         }
