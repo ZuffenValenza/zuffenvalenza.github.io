@@ -4,57 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loja Oficial | Zuffen & Valenza Designer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
     
-    <!-- BIBLIOTECAS DO GOOGLE FIREBASE -->
+    <link rel="icon" type="image/png" href="icone.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Montserrat:wght@300;500;700;900&display=swap" rel="stylesheet">
+    
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
     <style>
         :root {
             --bg-color: #070709; 
-            --surface-dark: rgba(20, 20, 25, 0.7); 
+            --surface-dark: #121212; 
             --brand-gold: #D4AF37;
-            --brand-gold-hover: #F3E5AB;
             --text-main: #f0f0f0;
             --text-muted: #8a8a93;
-            --border-glass: rgba(255, 255, 255, 0.08);
-            --studio-light: #000000; 
+            --border-glass: #222222;
+            --card-img-bg: #111111; 
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             background-color: var(--bg-color);
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(212, 175, 55, 0.03), transparent 30%),
-                radial-gradient(circle at 85% 10%, rgba(255, 255, 255, 0.02), transparent 30%);
             color: var(--text-main);
             font-family: 'Inter', sans-serif;
             -webkit-font-smoothing: antialiased;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         header {
-            background: rgba(7, 7, 9, 0.8);
-            backdrop-filter: blur(15px); 
-            -webkit-backdrop-filter: blur(15px);
+            background: #000;
             text-align: center; 
-            padding: 30px 20px 25px 20px; 
+            padding: 20px; 
             border-bottom: 1px solid var(--border-glass);
-            position: sticky;
-            top: 0;
-            z-index: 100;
             display: flex; flex-direction: column; align-items: center;
         }
-        
-        .logo-topo { max-width: 250px; width: 100%; display: block; margin: 0 auto; filter: drop-shadow(0 0 15px rgba(212,175,55,0.2)); }
-        .tagline-marca { font-family: 'Montserrat', sans-serif; font-size: 0.65rem; font-weight: 300; color: var(--brand-gold); letter-spacing: 5px; text-transform: uppercase; margin-top: 15px; opacity: 0.9; }
+        .logo-topo { max-width: 220px; width: 100%; display: block; margin: 0 auto; }
 
-        /* NOVO MENU DE FILTROS */
+        .banner-container {
+            width: 100%;
+            background-color: #111;
+            display: flex; justify-content: center; overflow: hidden;
+            border-bottom: 1px solid var(--border-glass);
+        }
+        .banner-container img {
+            width: 100%; max-width: 1920px; max-height: 500px; object-fit: cover; display: block;
+        }
+
+        .trust-bar {
+            background: #0a0a0c; border-bottom: 1px solid var(--border-glass);
+            padding: 25px 20px; display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;
+        }
+        .trust-item { display: flex; align-items: center; gap: 12px; }
+        .trust-icon { font-size: 24px; }
+        .trust-text { display: flex; flex-direction: column; }
+        .trust-title { font-size: 0.85rem; font-weight: 700; color: #fff; text-transform: uppercase; }
+        .trust-sub { font-size: 0.75rem; color: var(--text-muted); }
+
         .filtros-container {
             display: flex; gap: 12px; justify-content: center; align-items: center;
-            margin: 30px auto; flex-wrap: wrap; padding: 0 20px; max-width: 1300px;
+            margin: 40px auto; flex-wrap: wrap; padding: 0 20px; max-width: 1300px;
         }
         .btn-filtro {
             background: transparent; border: 1px solid var(--border-glass);
@@ -70,47 +81,57 @@
             display: flex; align-items: center; gap: 6px; margin-left: 20px; 
             border-bottom: 2px solid #fff; padding-bottom: 2px; cursor: pointer; transition: 0.3s;
         }
-        .link-medidas:hover { color: var(--brand-gold); border-color: var(--brand-gold); }
 
-        .container-produtos { max-width: 1300px; margin: 20px auto 40px; padding: 0 20px; }
-        .secao-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 20px; }
+        .container-produtos { max-width: 1300px; margin: 0 auto 40px; padding: 0 20px; flex: 1; width: 100%; }
+        .secao-header { display: none; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 20px; animation: fadeIn 0.5s ease-in; }
         .titulo-secao { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; font-weight: 700; color: #fff; letter-spacing: 1px; }
 
-        .galeria { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 35px; padding-bottom: 40px; }
-        .card-vitrine {
-            background: var(--surface-dark); border: 1px solid var(--border-glass); border-radius: 16px;
-            padding: 12px; cursor: pointer; transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); text-align: center;
+        .galeria { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; padding-bottom: 40px; }
+        
+        .card-nike {
+            background: transparent; cursor: pointer; transition: 0.3s; display: none; flex-direction: column; animation: fadeIn 0.5s ease-in;
         }
-        .card-vitrine:hover { 
-            transform: translateY(-8px); 
-            border-color: rgba(212, 175, 55, 0.3);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.8), 0 0 20px rgba(212,175,55,0.05);
+        .card-nike:hover .img-box img { transform: scale(1.05); }
+        
+        .img-box {
+            width: 100%; aspect-ratio: 4/5; background-color: var(--card-img-bg); border-radius: 8px;
+            display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 15px;
+            position: relative; border: 1px solid var(--border-glass);
         }
-        .img-container {
-            width: 100%; height: 320px; background-color: var(--studio-light); border-radius: 10px;
-            display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 20px;
+        .img-box img { width: 100%; height: 100%; object-fit: contain; transition: transform 0.5s ease; }
+        
+        .card-footer { display: flex; justify-content: space-between; align-items: flex-end; }
+        
+        .card-text { display: flex; flex-direction: column; gap: 4px; }
+        .card-text .nome { font-size: 0.95rem; font-weight: 400; color: #fff; line-height: 1.3; }
+        .card-text .preco { font-size: 1.1rem; font-weight: 700; color: #fff; margin-top: 5px; }
+        .card-text .parcelas { font-size: 0.75rem; color: var(--text-muted); }
+        
+        .btn-bag {
+            width: 40px; height: 40px; background-color: #1a1a1a; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; transition: 0.3s;
+            border: 1px solid #333; flex-shrink: 0; margin-bottom: 5px;
         }
-        .card-vitrine img { width: 100%; height: 100%; object-fit: contain; transition: transform 0.5s; }
-        .card-vitrine:hover img { transform: scale(1.05); }
-        .card-vitrine .nome { font-size: 1rem; font-weight: 400; color: #fff; margin-bottom: 8px; letter-spacing: 0.5px; }
-        .card-vitrine .preco { font-family: 'Montserrat', sans-serif; font-size: 1.25rem; font-weight: 700; color: var(--brand-gold); }
+        .card-nike:hover .btn-bag { background-color: var(--brand-gold); border-color: var(--brand-gold); }
+        .btn-bag svg { width: 18px; height: 18px; fill: #fff; }
+        .card-nike:hover .btn-bag svg { fill: #000; }
 
-        /* MODAIS */
         .modal-fundo {
             display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.85); align-items: center; justify-content: center; 
             backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
         }
         .modal-fundo.ativo { display: flex; animation: fadeIn 0.3s ease-out; }
+        
         .modal-conteudo {
-            background: var(--surface-dark); border: 1px solid var(--border-glass);
-            width: 95%; max-width: 950px; max-height: 90vh; border-radius: 20px; 
-            overflow-y: auto; position: relative; display: flex; flex-wrap: wrap;
+            background: #111; border: 1px solid var(--border-glass);
+            width: 95%; max-width: 950px; max-height: 90vh; border-radius: 12px; 
+            overflow-y: auto; overflow-x: hidden; position: relative; display: flex; flex-wrap: wrap;
             box-shadow: 0 30px 60px rgba(0,0,0,0.9);
         }
         .modal-conteudo-medidas {
-            background: var(--surface-dark); border: 1px solid var(--border-glass);
-            width: 95%; max-width: 600px; border-radius: 20px; padding: 40px;
+            background: #111; border: 1px solid var(--border-glass);
+            width: 95%; max-width: 600px; border-radius: 12px; padding: 40px;
             position: relative; box-shadow: 0 30px 60px rgba(0,0,0,0.9); text-align: center;
         }
         .fechar-modal {
@@ -119,77 +140,126 @@
         }
         .fechar-modal:hover { color: var(--brand-gold); transform: rotate(90deg); }
 
-        /* TABELA DE MEDIDAS */
         .tabela-medidas { width: 100%; border-collapse: collapse; margin-top: 25px; color: #fff; }
         .tabela-medidas th { background-color: rgba(212,175,55,0.1); color: var(--brand-gold); padding: 15px; font-family: 'Montserrat', sans-serif; border: 1px solid var(--border-glass); }
         .tabela-medidas td { padding: 12px; border: 1px solid var(--border-glass); }
         .tabela-medidas tr:nth-child(even) { background-color: rgba(255,255,255,0.02); }
 
         .galeria-produto {
-            flex: 1 1 450px; padding: 40px; background-color: rgba(0,0,0,0.2); 
+            flex: 1 1 350px; padding: 40px; background-color: rgba(0,0,0,0.2); 
             border-right: 1px solid var(--border-glass); display: flex; flex-direction: column; align-items: center;
         }
         .imagem-principal-box {
-            width: 100%; max-width: 400px; height: 400px; background-color: var(--studio-light);
-            border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px;
+            width: 100%; max-width: 400px; aspect-ratio: 4/5; background-color: var(--card-img-bg);
+            border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; border: 1px solid var(--border-glass);
         }
-        .imagem-principal-box img { width: 100%; height: 100%; object-fit: contain; border-radius: 12px; transition: 0.3s; }
+        .imagem-principal-box img { width: 100%; height: 100%; object-fit: contain; border-radius: 8px; transition: 0.3s; }
         
         .thumbnails-container {
             display: flex; gap: 15px; width: 100%; max-width: 400px; justify-content: center; flex-wrap: wrap;
         }
         .thumb {
-            width: 80px; height: 80px; background-color: var(--studio-light); border-radius: 8px;
+            width: 80px; height: 80px; background-color: var(--card-img-bg); border-radius: 6px;
             cursor: pointer; display: flex; align-items: center; justify-content: center;
-            border: 2px solid transparent; transition: 0.3s; overflow: hidden;
+            border: 1px solid var(--border-glass); transition: 0.3s; overflow: hidden;
         }
         .thumb img { width: 100%; height: 100%; object-fit: contain; }
         .thumb:hover, .thumb.ativo { border-color: var(--brand-gold); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(212,175,55,0.2); }
 
         .info-produto { flex: 1 1 350px; padding: 50px 40px; display: flex; flex-direction: column; justify-content: center; }
-        .info-produto h2 { font-family: 'Montserrat', sans-serif; font-size: 2rem; margin-bottom: 5px; color: #fff; font-weight: 700; }
+        .info-produto h2 { font-family: 'Montserrat', sans-serif; font-size: 2rem; margin-bottom: 5px; color: #fff; font-weight: 700; line-height: 1.1; }
         .info-produto .ref { font-size: 0.8rem; color: var(--brand-gold); margin-bottom: 25px; text-transform: uppercase; letter-spacing: 2px; }
         .info-produto .preco-grande { font-family: 'Montserrat', sans-serif; font-size: 2.2rem; font-weight: 700; color: #fff; margin-bottom: 25px; }
 
         .campo-input {
-            width: 100%; padding: 16px; margin-bottom: 15px; background-color: rgba(0,0,0,0.3);
+            width: 100%; padding: 16px; margin-bottom: 15px; background-color: #0a0a0a;
             border: 1px solid var(--border-glass); border-radius: 8px; color: #fff;
             font-weight: 500; font-size: 1rem; outline: none; transition: 0.3s; font-family: 'Inter', sans-serif;
         }
-        .campo-input:focus { border-color: var(--brand-gold); background-color: rgba(212,175,55,0.05); }
+        .campo-input:focus { border-color: var(--brand-gold); }
         .campo-input option { background-color: #111; color: #fff; }
         
-        .row-inputs { display: flex; gap: 15px; }
+        .row-inputs { display: flex; gap: 15px; width: 100%; }
         .row-inputs .campo-input { flex: 1; }
 
         .btn-comprar-modal {
             width: 100%; background-color: var(--brand-gold); color: #000; padding: 18px 0; border: none;
             border-radius: 8px; font-weight: 700; font-size: 1.1rem; letter-spacing: 1px; text-transform: uppercase; 
-            cursor: pointer; transition: 0.3s; margin-top: 10px; box-shadow: 0 10px 20px rgba(212,175,55,0.2);
+            cursor: pointer; transition: 0.3s; margin-top: 10px;
         }
-        .btn-comprar-modal:hover { background-color: var(--brand-gold-hover); transform: translateY(-2px); box-shadow: 0 12px 25px rgba(212,175,55,0.4); }
+        .btn-comprar-modal:hover { background-color: var(--brand-gold-hover); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(212,175,55,0.2); }
+
+        .secao-personalizada {
+            background: #111; border: 1px solid var(--border-glass); border-radius: 12px;
+            padding: 50px 20px; text-align: center; margin: 40px auto 60px; max-width: 1300px;
+        }
+        .secao-personalizada h2 { color: #fff; font-family: 'Montserrat', sans-serif; font-size: 2rem; margin-bottom: 15px; letter-spacing: 1px; }
+        .secao-personalizada p { color: var(--text-muted); margin-bottom: 30px; font-size: 1rem; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.6; }
+        .btn-personalizada {
+            background: transparent; color: #fff; padding: 16px 35px; border: 1px solid #fff; 
+            border-radius: 30px; font-weight: 600; cursor: pointer; text-transform: uppercase; transition: 0.3s; font-size: 0.9rem;
+        }
+        .btn-personalizada:hover { background: #fff; color: #000; transform: scale(1.02); }
+
+        footer {
+            background: #050505; border-top: 1px solid var(--border-glass); padding: 60px 20px 20px; font-family: 'Inter', sans-serif;
+        }
+        .footer-content { display: flex; flex-wrap: wrap; max-width: 1300px; margin: 0 auto; gap: 40px; justify-content: space-between; }
+        .footer-col { flex: 1; min-width: 250px; }
+        .footer-col img { max-width: 180px; margin-bottom: 20px; opacity: 0.8; }
+        .footer-col p { color: var(--text-muted); font-size: 0.85rem; line-height: 1.8; margin-bottom: 10px; }
+        .footer-col h4 { color: #fff; font-family: 'Montserrat', sans-serif; margin-bottom: 20px; font-size: 1rem; letter-spacing: 1px; }
+        .footer-col a { display: block; color: var(--text-muted); text-decoration: none; margin-bottom: 12px; font-size: 0.85rem; transition: 0.3s; }
+        .footer-col a:hover { color: #fff; }
+        .footer-bottom { text-align: center; padding-top: 30px; margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.05); color: #555; font-size: 0.75rem; }
 
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
         
         @media (max-width: 768px) {
-            .modal-conteudo { flex-direction: column; }
-            .galeria-produto { padding: 30px 20px; border-right: none; border-bottom: 1px solid var(--border-glass); }
-            .info-produto { padding: 30px 20px; }
-            .imagem-principal-box { height: 350px; }
-            .link-medidas { margin-left: 0; margin-top: 10px; width: 100%; justify-content: center; }
+            .trust-bar { gap: 20px; justify-content: flex-start; }
+            .trust-item { width: 45%; }
+            .banner-container img { height: 250px; }
+            .modal-conteudo { width: 100%; height: 100%; max-height: 100vh; border-radius: 0; margin: 0; flex-direction: column; flex-wrap: nowrap; }
+            .galeria-produto { padding: 20px 15px; border-right: none; border-bottom: 1px solid var(--border-glass); flex: none; }
+            .info-produto { padding: 20px 15px; flex: none; }
+            .row-inputs { flex-direction: column; gap: 0; }
+            .secao-personalizada { margin: 20px 15px; padding: 30px 15px; }
+            .footer-col { min-width: 100%; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <img src="logo.png" alt="Zuffen & Valenza" class="logo-topo" onerror="this.src='https://via.placeholder.com/250x60/111/fff?text=ZUFFEN+%26+VALENZA'">
-        <p class="tagline-marca">ELEVANDO O PADRÃO DO STREETWEAR</p>
+        <img src="logo.png" alt="Zuffen & Valenza" class="logo-topo" onerror="this.src='https://via.placeholder.com/250x60/111/D4AF37?text=ZUFFEN+%26+VALENZA'">
     </header>
 
-    <!-- MENU DE FILTROS E GUIA DE MEDIDAS -->
+    <section class="banner-container">
+        <img src="banner.png" alt="Promoção Zuffen & Valenza" onerror="this.src='https://via.placeholder.com/1920x500/111/fff?text=Adicione+seu+Banner+Aqui+(banner.png)'">
+    </section>
+
+    <section class="trust-bar">
+        <div class="trust-item">
+            <span class="trust-icon">💳</span>
+            <div class="trust-text"><span class="trust-title">Parcelamento</span><span class="trust-sub">Facilitado via Link</span></div>
+        </div>
+        <div class="trust-item">
+            <span class="trust-icon">📦</span>
+            <div class="trust-text"><span class="trust-title">Envio Rápido</span><span class="trust-sub">Para todo o Brasil</span></div>
+        </div>
+        <div class="trust-item">
+            <span class="trust-icon">🇧🇷</span>
+            <div class="trust-text"><span class="trust-title">Marca Nacional</span><span class="trust-sub">Produção Premium SC</span></div>
+        </div>
+        <div class="trust-item">
+            <span class="trust-icon">🔒</span>
+            <div class="trust-text"><span class="trust-title">Site Seguro</span><span class="trust-sub">Pagamento Protegido</span></div>
+        </div>
+    </section>
+
+    <!-- OS BOTÕES COMEÇAM DESMARCADOS -->
     <div class="filtros-container">
-        <button class="btn-filtro ativo" onclick="filtrarGaleria('todos', this)">Todos</button>
+        <button class="btn-filtro" onclick="filtrarGaleria('todos', this)">Todos</button>
         <button class="btn-filtro" onclick="filtrarGaleria('oriental', this)">Oriental & Mangá</button>
         <button class="btn-filtro" onclick="filtrarGaleria('urban', this)">Urban</button>
         <button class="btn-filtro" onclick="filtrarGaleria('minimal', this)">Minimal</button>
@@ -197,19 +267,49 @@
     </div>
 
     <div class="container-produtos">
-        <!-- SECÇÃO 1: PREMIUM -->
+        <!-- OS CABEÇALHOS COMEÇAM OCULTOS -->
         <div class="secao-header" id="header-premium">
             <h2 class="titulo-secao">ACERVO PREMIUM</h2>
         </div>
         <main class="galeria" id="galeria-premium"></main>
 
-        <!-- SECÇÃO 2: DEVOTION -->
         <div class="secao-header" id="header-devotion" style="margin-top: 40px; text-align: center; justify-content: center; border-top: 1px solid var(--border-glass); padding-top: 60px;">
-            <h2 class="titulo-secao" style="color: var(--brand-gold); font-size: 2.2rem; letter-spacing: 6px;">SÉRIE DEVOTION</h2>
+            <h2 class="titulo-secao" style="color: #fff; font-size: 2.2rem; letter-spacing: 6px;">SÉRIE DEVOTION</h2>
             <p style="color: var(--text-muted); font-size: 0.8rem; width: 100%; text-transform: uppercase; letter-spacing: 3px; margin-top: 10px;">Encontre o seu santuário</p>
         </div>
-        <main class="galeria" id="galeria-devotion" style="padding-bottom: 80px;"></main>
+        <main class="galeria" id="galeria-devotion" style="padding-bottom: 20px;"></main>
     </div>
+
+    <div class="secao-personalizada">
+        <h2>ESTAMPA PERSONALIZADA</h2>
+        <p>Pretende uma T-Shirt exclusiva com a sua marca, arte ou fotografia? Nós produzimos com a mesma qualidade de malha e impressão DTF da nossa grife.</p>
+        <button class="btn-personalizada" onclick="pedirEstampaPersonalizada()">Solicitar Orçamento</button>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <img src="logo.png" alt="Zuffen & Valenza" onerror="this.src='https://via.placeholder.com/180x45/000/D4AF37?text=ZUFFEN+%26+VALENZA'">
+                <p>Nascida em SC, concebida para o mundo.<br>Unimos estética agressiva à engenharia têxtil de ponta.</p>
+            </div>
+            <div class="footer-col">
+                <h4>ATENDIMENTO</h4>
+                <a href="javascript:void(0)">Dúvidas Frequentes</a>
+                <a href="javascript:void(0)">Prazos e Entregas</a>
+                <a href="javascript:void(0)">Trocas e Devoluções</a>
+                <a href="javascript:void(0)">Rastreamento</a>
+            </div>
+            <div class="footer-col">
+                <h4>CONTACTOS</h4>
+                <p><strong>WhatsApp:</strong> (47) 99672-0018</p>
+                <p><strong>Sede:</strong> Indaial, Santa Catarina - Brasil</p>
+                <p><strong>Email:</strong> contato@zuffenvalenza.com.br</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Zuffen & Valenza Designer. Todos os direitos reservados. Operado sob CNPJ: XX.XXX.XXX/0001-XX</p>
+        </div>
+    </footer>
 
     <!-- MODAL DE COMPRA -->
     <div id="modal-produto" class="modal-fundo">
@@ -226,13 +326,7 @@
             <p style="color: var(--brand-gold); font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 25px;">T-SHIRTS OVERSIZED / PREMIUM</p>
             
             <table class="tabela-medidas">
-                <thead>
-                    <tr>
-                        <th>Tamanho</th>
-                        <th>Largura (cm)</th>
-                        <th>Altura (cm)</th>
-                    </tr>
-                </thead>
+                <thead><tr><th>Tamanho</th><th>Largura (cm)</th><th>Altura (cm)</th></tr></thead>
                 <tbody>
                     <tr><td>P</td><td>52</td><td>70</td></tr>
                     <tr><td>M</td><td>54</td><td>72</td></tr>
@@ -248,9 +342,6 @@
     </div>
 
     <script>
-        // ==========================================
-        // 1. CONFIGURAÇÃO DO FIREBASE
-        // ==========================================
         const firebaseConfig = {
             apiKey: "AIzaSyCdQQoHnMSq-smctTZR_b9cc2-7tRuQo6o",
             authDomain: "zv-erp.firebaseapp.com",
@@ -262,17 +353,12 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // ==========================================
-        // DADOS DA LOJA E DOMÍNIO
-        // ==========================================
         const precoFixo = 89.90;
         const precoFormatado = precoFixo.toFixed(2).replace('.', ',');
         const numeroWhatsApp = "5547996720018";
         const dominioDoSite = "https://zuffenvalenza.github.io/"; 
 
-        // Adicionado atributo 'tag' para os filtros do menu
         const estampas = [
-            // ACERVO PREMIUM
             { id: 'ZV-001', nome: 'Skulls & Tricks "Jumps"', imagens: ['ZV-001.png', 'ZV-001-2.png', 'ZV-001-3.png'], categoria: 'premium', tag: 'urban' },
             { id: 'ZV-002', nome: 'Grizzly "Bold Streets"', imagens: ['ZV-002.png', 'ZV-002-2.png', 'ZV-002-3.png'], categoria: 'premium', tag: 'urban' },
             { id: 'ZV-003', nome: 'Primal Instinct', imagens: ['ZV-003.png', 'ZV-003-2.png', 'ZV-003-3.png'], categoria: 'premium', tag: 'urban' },
@@ -287,15 +373,13 @@
             { id: 'ZV-012', nome: 'Dollar Cherub', imagens: ['ZV-012.png', 'ZV-012-2.png', 'ZV-012-3.png'], categoria: 'premium', tag: 'minimal' },
             { id: 'ZV-013', nome: 'Rich Baby O.G.', imagens: ['ZV-013.png', 'ZV-013-2.png', 'ZV-013-3.png'], categoria: 'premium', tag: 'urban' },
             { id: 'ZV-014', nome: 'Rebel Archangel', imagens: ['ZV-014.png', 'ZV-014-2.png', 'ZV-014-3.png'], categoria: 'premium', tag: 'oriental' },
-            
-            // SÉRIE DEVOTION (Sempre exibidas, independentes dos filtros ou podem receber tag 'minimal')
-            { id: 'ZV-015', nome: 'Eu Encontrei Jesus', imagens: ['eu encontrei jesus.png', 'ZV-015.png', 'ZV-015-1.png'], categoria: 'devotion', tag: 'minimal' },
-            { id: 'ZV-016', nome: 'Jesus Typography', imagens: ['Jesus Typography.png', 'ZV-016.png', 'ZV-016-1.png'], categoria: 'devotion', tag: 'minimal' },
-            { id: 'ZV-017', nome: 'Jesus Find Peace', imagens: ['jesus find peace.png', 'ZV-017.png', 'ZV-017-1.png'], categoria: 'devotion', tag: 'minimal' },
-            { id: 'ZV-018', nome: 'Jesus Christ', imagens: ['Jesus Christ.png', 'ZV-018.png', 'ZV-018-1.png'], categoria: 'devotion', tag: 'minimal' },
-            { id: 'ZV-019', nome: 'Angelic Justice', imagens: ['Angelic Justice.png', 'ZV-019.png', 'ZV-019-1.png'], categoria: 'devotion', tag: 'minimal' },
-            { id: 'ZV-020', nome: 'Celebrate Hope', imagens: ['Celebrate Hope.png', 'ZV-020.png', 'ZV-020-1.png'], categoria: 'devotion', tag: 'minimal' },
-            { id: 'ZV-021', nome: 'The Way, The Truth, The Life', imagens: ['Jesus.png', 'ZV-021.png', 'ZV-021-1.png'], categoria: 'devotion', tag: 'minimal' }
+            { id: 'ZV-015', nome: 'Eu Encontrei Jesus', imagens: ['eu encontrei jesus.png', 'ZV-015-1.png', 'ZV-015-2.png'], categoria: 'devotion', tag: 'minimal' },
+            { id: 'ZV-016', nome: 'Jesus Typography', imagens: ['Jesus Typography.png', 'ZV-016-1.png', 'ZV-016-2.png'], categoria: 'devotion', tag: 'minimal' },
+            { id: 'ZV-017', nome: 'Jesus Find Peace', imagens: ['jesus find peace.png', 'ZV-017-1.png', 'ZV-017-2.png'], categoria: 'devotion', tag: 'minimal' },
+            { id: 'ZV-018', nome: 'Jesus Christ', imagens: ['Jesus Christ.png', 'ZV-018-1.png', 'ZV-018-2.png'], categoria: 'devotion', tag: 'minimal' },
+            { id: 'ZV-019', nome: 'Angelic Justice', imagens: ['Angelic Justice.png', 'ZV-019-1.png', 'ZV-019-2.png'], categoria: 'devotion', tag: 'minimal' },
+            { id: 'ZV-020', nome: 'Celebrate Hope', imagens: ['Celebrate Hope.png', 'ZV-020-1.png', 'ZV-020-2.png'], categoria: 'devotion', tag: 'minimal' },
+            { id: 'ZV-021', nome: 'The Way, The Truth, The Life', imagens: ['Jesus.png', 'ZV-021-1.png', 'ZV-021-2.png'], categoria: 'devotion', tag: 'minimal' }
         ];
 
         function renderizarGaleria() {
@@ -306,14 +390,23 @@
             galeriaDevotion.innerHTML = '';
 
             estampas.forEach((estampa) => {
-                // Adicionamos o atributo data-tag para o filtro do Javascript funcionar
+                const valorParcela = (precoFixo / 3).toFixed(2).replace('.', ',');
+                
                 const cardHTML = `
-                    <div class="card-vitrine" data-tag="${estampa.tag}" onclick="abrirDetalhesProduto('${estampa.id}')">
-                        <div class="img-container">
-                            <img src="${estampa.imagens[0]}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x400/000/333?text=ZV'">
+                    <div class="card-nike" data-tag="${estampa.tag}" onclick="abrirDetalhesProduto('${estampa.id}')">
+                        <div class="img-box">
+                            <img src="${estampa.imagens[0]}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x400/111/333?text=ZV'">
                         </div>
-                        <div class="nome">${estampa.nome}</div>
-                        <div class="preco">R$ ${precoFormatado}</div>
+                        <div class="card-footer">
+                            <div class="card-text">
+                                <div class="nome">${estampa.nome}</div>
+                                <div class="preco">R$ ${precoFormatado}</div>
+                                <div class="parcelas">ou 3x de R$ ${valorParcela} Sem juros</div>
+                            </div>
+                            <div class="btn-bag">
+                                <svg viewBox="0 0 24 24"><path d="M16 6V4C16 1.79 14.21 0 12 0C9.79 0 8 1.79 8 4V6H2C1.45 6 1 6.45 1 7V22C1 23.1 1.9 24 3 24H21C22.1 24 23 23.1 23 22V7C23 6.45 22.55 6 22 6H16ZM10 4C10 2.9 10.9 2 12 2C13.1 2 14 2.9 14 4V6H10V4ZM21 22H3V8H8V10C8 10.55 8.45 11 9 11C9.55 11 10 10.55 10 10V8H14V10C14 10.55 14.45 11 15 11C15.55 11 16 10.55 16 10V8H21V22Z"/></svg>
+                            </div>
+                        </div>
                     </div>
                 `;
 
@@ -325,23 +418,17 @@
             });
         }
 
-        // ==========================================
-        // SISTEMA DE FILTRO DO MENU
-        // ==========================================
         window.filtrarGaleria = function(tagEscolhida, botaoClicado) {
-            // 1. Atualizar as cores dos botões (remover dourado de todos e colocar no clicado)
             document.querySelectorAll('.btn-filtro').forEach(btn => btn.classList.remove('ativo'));
             botaoClicado.classList.add('ativo');
 
-            // 2. Esconder ou Mostrar os cards baseados na Tag
-            const cards = document.querySelectorAll('.card-vitrine');
+            const cards = document.querySelectorAll('.card-nike');
             let encontrouPremium = false;
             let encontrouDevotion = false;
 
             cards.forEach(card => {
                 if(tagEscolhida === 'todos' || card.getAttribute('data-tag') === tagEscolhida) {
-                    card.style.display = 'block';
-                    // Verifica em qual galeria este card visível está para controlar os Títulos
+                    card.style.display = 'flex';
                     if(card.parentElement.id === 'galeria-premium') encontrouPremium = true;
                     if(card.parentElement.id === 'galeria-devotion') encontrouDevotion = true;
                 } else {
@@ -349,14 +436,10 @@
                 }
             });
 
-            // 3. Esconder os títulos das sessões se não houver nenhuma camisa visível nela
             document.getElementById('header-premium').style.display = encontrouPremium ? 'flex' : 'none';
             document.getElementById('header-devotion').style.display = encontrouDevotion ? 'flex' : 'none';
         }
 
-        // ==========================================
-        // SISTEMA DE MODAIS (MEDIDAS E PRODUTOS)
-        // ==========================================
         window.abrirModalMedidas = function() {
             document.getElementById('modal-medidas').classList.add('ativo');
             document.body.style.overflow = 'hidden'; 
@@ -394,7 +477,6 @@
                     <div class="imagem-principal-box">
                         <img src="${produto.imagens[0]}" id="img-principal-modal" onerror="this.src='https://via.placeholder.com/400/000/333?text=IMAGEM+1'">
                     </div>
-                    
                     <div class="thumbnails-container">
                         ${htmlMiniaturas}
                     </div>
@@ -418,16 +500,14 @@
                             <option value="G2">Tamanho G2</option>
                             <option value="G3">Tamanho G3</option>
                         </select>
-
                         <input type="number" id="qtd-modal" class="campo-input" value="1" min="1" placeholder="Qtd">
                     </div>
 
                     <button onclick="enviarPedidoAutomatizado('${produto.id}', '${nomeSeguro}', '${produto.imagens[0]}')" class="btn-comprar-modal">
                         FINALIZAR COMPRA
                     </button>
-                    
                     <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 15px; text-align: center;">
-                        Você será redirecionado para o nosso WhatsApp oficial.
+                        Será redirecionado para o WhatsApp oficial.
                     </p>
                 </div>
             `;
@@ -451,17 +531,9 @@
             const mesAno = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
 
             const novoPedidoERP = {
-                sku: sku,
-                cliente: nomeCliente,
-                whatsapp: "Via Loja Online",
-                estampa: idEstampa, 
-                tamanho: tamanho,
-                qtd: qtd,
-                preco: precoFixo,
-                status: 0, 
-                data: dataHoje,
-                mesAno: mesAno,
-                timestamp: Date.now()
+                sku: sku, cliente: nomeCliente, whatsapp: "Via Loja Online",
+                estampa: idEstampa, tamanho: tamanho, qtd: qtd, preco: precoFixo,
+                status: 0, data: dataHoje, mesAno: mesAno, timestamp: Date.now()
             };
             
             db.collection("pedidos").add(novoPedidoERP).catch(err => console.error("Erro Nuvem:", err));
@@ -482,18 +554,30 @@
             window.open(urlFinal, '_blank');
         }
 
+        window.pedirEstampaPersonalizada = function() {
+            const textoWhatsApp = `Olá! Gostaria de solicitar um orçamento para uma estampa personalizada na Zuffen & Valenza.`;
+            const urlFinal = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(textoWhatsApp)}`;
+            window.open(urlFinal, '_blank');
+        }
+
         window.fecharDetalhesProduto = function() { 
             document.getElementById('modal-produto').classList.remove('ativo'); 
             document.body.style.overflow = 'auto'; 
         }
 
-        // Fecha os modais se clicar fora da caixa central
         window.onclick = function(event) {
             if (event.target == document.getElementById('modal-produto')) fecharDetalhesProduto();
             if (event.target == document.getElementById('modal-medidas')) fecharModalMedidas();
         }
 
-        window.onload = renderizarGaleria;
+        // Garante que o site carrega limpo e oculto até o utilizador interagir com os filtros
+        window.onload = function() {
+            renderizarGaleria();
+            const cards = document.querySelectorAll('.card-nike');
+            cards.forEach(card => card.style.display = 'none');
+            document.getElementById('header-premium').style.display = 'none';
+            document.getElementById('header-devotion').style.display = 'none';
+        };
     </script>
 </body>
 </html>
