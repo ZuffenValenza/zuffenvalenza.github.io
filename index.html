@@ -34,6 +34,7 @@
             flex-direction: column;
         }
 
+        /* 1. HEADER SIMPLES */
         header {
             background: #000;
             text-align: center; 
@@ -43,16 +44,19 @@
         }
         .logo-topo { max-width: 220px; width: 100%; display: block; margin: 0 auto; }
 
+        /* 2. BANNER PROMOCIONAL (CORRIGIDO) */
         .banner-container {
             width: 100%;
-            background-color: #111;
+            background-color: #000;
             display: flex; justify-content: center; overflow: hidden;
             border-bottom: 1px solid var(--border-glass);
         }
         .banner-container img {
-            width: 100%; max-width: 1920px; max-height: 500px; object-fit: cover; display: block;
+            width: 100%; max-width: 1920px; max-height: 500px; 
+            object-fit: cover; display: block;
         }
 
+        /* 3. BARRA DE CONFIANÇA */
         .trust-bar {
             background: #0a0a0c; border-bottom: 1px solid var(--border-glass);
             padding: 25px 20px; display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;
@@ -63,6 +67,7 @@
         .trust-title { font-size: 0.85rem; font-weight: 700; color: #fff; text-transform: uppercase; }
         .trust-sub { font-size: 0.75rem; color: var(--text-muted); }
 
+        /* NAVEGAÇÃO / LOJA */
         .filtros-container {
             display: flex; gap: 12px; justify-content: center; align-items: center;
             margin: 40px auto; flex-wrap: wrap; padding: 0 20px; max-width: 1300px;
@@ -71,7 +76,7 @@
             background: transparent; border: 1px solid var(--border-glass);
             color: var(--text-muted); padding: 8px 24px; border-radius: 30px;
             cursor: pointer; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.9rem;
-            transition: all 0.3s ease;
+            transition: all 0.3s ease; white-space: nowrap;
         }
         .btn-filtro:hover { border-color: rgba(212,175,55,0.5); color: #fff; }
         .btn-filtro.ativo { border-color: var(--brand-gold); color: var(--brand-gold); }
@@ -80,12 +85,14 @@
             color: #fff; text-decoration: none; font-size: 0.95rem; font-weight: 600;
             display: flex; align-items: center; gap: 6px; margin-left: 20px; 
             border-bottom: 2px solid #fff; padding-bottom: 2px; cursor: pointer; transition: 0.3s;
+            white-space: nowrap;
         }
 
         .container-produtos { max-width: 1300px; margin: 0 auto 40px; padding: 0 20px; flex: 1; width: 100%; }
         .secao-header { display: none; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 20px; animation: fadeIn 0.5s ease-in; }
         .titulo-secao { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; font-weight: 700; color: #fff; letter-spacing: 1px; }
 
+        /* 4. CARTÃO DE PRODUTO */
         .galeria { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; padding-bottom: 40px; }
         
         .card-nike {
@@ -215,16 +222,36 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
         
+        /* CORREÇÕES MOBILE: BANNER E ALINHAMENTOS */
         @media (max-width: 768px) {
-            .trust-bar { gap: 20px; justify-content: flex-start; }
-            .trust-item { width: 45%; }
-            .banner-container img { height: 250px; }
+            .logo-topo { max-width: 180px; }
+            
+            /* A Mágica do Banner Responsivo */
+            .banner-container img { 
+                height: auto; /* Remove o corte, adaptando à largura do ecrã */
+                max-height: none; 
+                object-fit: contain; 
+            }
+            
+            /* Melhoria na Barra de Confiança (Selos) */
+            .trust-bar { gap: 15px; justify-content: center; padding: 20px 15px; }
+            .trust-item { width: 45%; align-items: flex-start; }
+            .trust-icon { font-size: 20px; }
+            .trust-title { font-size: 0.75rem; }
+            .trust-sub { font-size: 0.65rem; }
+            
+            /* Filtros mais arrumados */
+            .filtros-container { gap: 8px; margin: 25px auto; }
+            .btn-filtro { padding: 8px 16px; font-size: 0.8rem; }
+            .link-medidas { width: 100%; justify-content: center; margin-left: 0; margin-top: 10px; font-size: 0.85rem; }
+            
             .modal-conteudo { width: 100%; height: 100%; max-height: 100vh; border-radius: 0; margin: 0; flex-direction: column; flex-wrap: nowrap; }
             .galeria-produto { padding: 20px 15px; border-right: none; border-bottom: 1px solid var(--border-glass); flex: none; }
             .info-produto { padding: 20px 15px; flex: none; }
             .row-inputs { flex-direction: column; gap: 0; }
             .secao-personalizada { margin: 20px 15px; padding: 30px 15px; }
-            .footer-col { min-width: 100%; }
+            .footer-col { min-width: 100%; text-align: center; }
+            .footer-col img { margin: 0 auto 20px; }
         }
     </style>
 </head>
@@ -257,7 +284,6 @@
         </div>
     </section>
 
-    <!-- OS BOTÕES COMEÇAM DESMARCADOS -->
     <div class="filtros-container">
         <button class="btn-filtro" onclick="filtrarGaleria('todos', this)">Todos</button>
         <button class="btn-filtro" onclick="filtrarGaleria('oriental', this)">Oriental & Mangá</button>
@@ -267,7 +293,6 @@
     </div>
 
     <div class="container-produtos">
-        <!-- OS CABEÇALHOS COMEÇAM OCULTOS -->
         <div class="secao-header" id="header-premium">
             <h2 class="titulo-secao">ACERVO PREMIUM</h2>
         </div>
@@ -570,7 +595,6 @@
             if (event.target == document.getElementById('modal-medidas')) fecharModalMedidas();
         }
 
-        // Garante que o site carrega limpo e oculto até o utilizador interagir com os filtros
         window.onload = function() {
             renderizarGaleria();
             const cards = document.querySelectorAll('.card-nike');
