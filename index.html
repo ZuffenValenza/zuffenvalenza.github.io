@@ -131,11 +131,15 @@
             overflow-y: auto; overflow-x: hidden; position: relative; display: flex; flex-wrap: wrap;
             box-shadow: 0 30px 60px rgba(0,0,0,0.9);
         }
-        .modal-conteudo-medidas {
+        
+        /* ESTILO DOS MODAIS MENORES (MEDIDAS E INFORMAÇÕES) */
+        .modal-conteudo-simples {
             background: #111; border: 1px solid var(--border-glass);
-            width: 95%; max-width: 600px; border-radius: 12px; padding: 40px;
+            width: 95%; max-width: 600px; max-height: 90vh; border-radius: 12px; padding: 40px;
             position: relative; box-shadow: 0 30px 60px rgba(0,0,0,0.9); text-align: center;
+            overflow-y: auto;
         }
+        
         .fechar-modal {
             position: absolute; right: 25px; top: 20px; font-size: 32px; color: var(--text-muted); 
             cursor: pointer; z-index: 10; transition: 0.3s; line-height: 1;
@@ -211,7 +215,7 @@
         .footer-col img { max-width: 180px; margin-bottom: 20px; opacity: 0.8; }
         .footer-col p { color: var(--text-muted); font-size: 0.85rem; line-height: 1.8; margin-bottom: 10px; }
         .footer-col h4 { color: #fff; font-family: 'Montserrat', sans-serif; margin-bottom: 20px; font-size: 1rem; letter-spacing: 1px; }
-        .footer-col a { display: block; color: var(--text-muted); text-decoration: none; margin-bottom: 12px; font-size: 0.85rem; transition: 0.3s; }
+        .footer-col a { display: block; color: var(--text-muted); text-decoration: none; margin-bottom: 12px; font-size: 0.85rem; transition: 0.3s; cursor: pointer; }
         .footer-col a:hover { color: #fff; }
         .footer-bottom { text-align: center; padding-top: 30px; margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.05); color: #555; font-size: 0.75rem; }
 
@@ -219,24 +223,17 @@
         
         @media (max-width: 768px) {
             .logo-topo { max-width: 180px; }
-            
-            .banner-container img { 
-                height: auto; 
-                max-height: none; 
-                object-fit: contain; 
-            }
-            
+            .banner-container img { height: auto; max-height: none; object-fit: contain; }
             .trust-bar { gap: 15px; justify-content: center; padding: 20px 15px; }
             .trust-item { width: 45%; align-items: flex-start; }
             .trust-icon { font-size: 20px; }
             .trust-title { font-size: 0.75rem; }
             .trust-sub { font-size: 0.65rem; }
-            
             .filtros-container { gap: 8px; margin: 25px auto; }
             .btn-filtro { padding: 8px 16px; font-size: 0.8rem; }
             .link-medidas { width: 100%; justify-content: center; margin-left: 0; margin-top: 10px; font-size: 0.85rem; }
-            
             .modal-conteudo { width: 100%; height: 100%; max-height: 100vh; border-radius: 0; margin: 0; flex-direction: column; flex-wrap: nowrap; }
+            .modal-conteudo-simples { width: 100%; height: 100%; border-radius: 0; padding: 30px 20px; }
             .galeria-produto { padding: 20px 15px; border-right: none; border-bottom: 1px solid var(--border-glass); flex: none; }
             .info-produto { padding: 20px 15px; flex: none; }
             .row-inputs { flex-direction: column; gap: 0; }
@@ -310,16 +307,16 @@
             </div>
             <div class="footer-col">
                 <h4>ATENDIMENTO</h4>
-                <a href="javascript:void(0)">Dúvidas Frequentes</a>
-                <a href="javascript:void(0)">Prazos e Entregas</a>
-                <a href="javascript:void(0)">Trocas e Devoluções</a>
-                <a href="javascript:void(0)">Rastreamento</a>
+                <!-- LINKS ATUALIZADOS AQUI -->
+                <a onclick="abrirModalInfo('faq')">Dúvidas Frequentes</a>
+                <a onclick="abrirModalInfo('prazos')">Prazos e Entregas</a>
+                <a onclick="abrirModalInfo('trocas')">Trocas e Devoluções</a>
+                <a onclick="abrirModalInfo('rastreio')">Rastreamento</a>
             </div>
             <div class="footer-col">
                 <h4>CONTACTOS</h4>
                 <p><strong>WhatsApp:</strong> (47) 99672-0018</p>
                 <p><strong>Sede:</strong> Indaial, Santa Catarina - Brasil</p>
-                <!-- Email atualizado conforme solicitado -->
                 <p><strong>Email:</strong> zuffenvalenza@gmail.com</p>
             </div>
         </div>
@@ -328,16 +325,14 @@
         </div>
     </footer>
 
-    <!-- MODAL DE COMPRA -->
+    <!-- MODAL DE COMPRA PRODUTO -->
     <div id="modal-produto" class="modal-fundo">
-        <div class="modal-conteudo" id="conteudo-produto">
-            <!-- Gerado via JavaScript -->
-        </div>
+        <div class="modal-conteudo" id="conteudo-produto"></div>
     </div>
 
     <!-- MODAL GUIA DE MEDIDAS -->
     <div id="modal-medidas" class="modal-fundo">
-        <div class="modal-conteudo-medidas">
+        <div class="modal-conteudo-simples">
             <span class="fechar-modal" onclick="fecharModalMedidas()">&times;</span>
             <h2 style="font-family: 'Montserrat', sans-serif; color: #fff; margin-bottom: 5px;">GUIA DE MEDIDAS</h2>
             <p style="color: var(--brand-gold); font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 25px;">T-SHIRTS OVERSIZED / PREMIUM</p>
@@ -355,6 +350,15 @@
                 </tbody>
             </table>
             <p style="color: var(--text-muted); font-size: 0.75rem; margin-top: 20px;">*As medidas podem variar em até 2cm para mais ou para menos após a primeira lavagem.</p>
+        </div>
+    </div>
+
+    <!-- NOVO MODAL DE INFORMAÇÕES DO RODAPÉ -->
+    <div id="modal-info" class="modal-fundo">
+        <div class="modal-conteudo-simples" style="text-align: left;">
+            <span class="fechar-modal" onclick="fecharModalInfo()">&times;</span>
+            <h2 id="info-titulo" style="font-family: 'Montserrat', sans-serif; color: #fff; margin-bottom: 20px; font-size: 1.5rem; text-transform: uppercase;"></h2>
+            <div id="info-texto" style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.8;"></div>
         </div>
     </div>
 
@@ -398,6 +402,60 @@
             { id: 'ZV-020', nome: 'Celebrate Hope', imagens: ['Celebrate Hope.png', 'ZV-020-1.png', 'ZV-020-2.png'], categoria: 'devotion', tag: 'minimal' },
             { id: 'ZV-021', nome: 'The Way, The Truth, The Life', imagens: ['Jesus.png', 'ZV-021-1.png', 'ZV-021-2.png'], categoria: 'devotion', tag: 'minimal' }
         ];
+
+        // CONTEÚDOS DO RODAPÉ (FAQ, Prazos, etc.)
+        const conteudosInfo = {
+            faq: {
+                titulo: "Dúvidas Frequentes",
+                texto: `
+                    <strong style="color:#fff;">1. Qual é a modelagem das camisas?</strong><br>
+                    Trabalhamos com uma modelagem Oversized Streetwear, pensada para um caimento mais solto e moderno. Se prefere um ajuste mais justo, recomendamos consultar o nosso Guia de Medidas.<br><br>
+                    <strong style="color:#fff;">2. Como é feita a estampa?</strong><br>
+                    Utilizamos a tecnologia DTF (Direct-to-Film) de última geração, garantindo cores vivas, detalhes minuciosos e uma durabilidade superior a métodos tradicionais.<br><br>
+                    <strong style="color:#fff;">3. Como devo cuidar da minha peça Z&V?</strong><br>
+                    Para garantir a longevidade da estampa e da malha: Lave sempre do avesso, não utilize lixívia, seque à sombra e <strong>nunca passe o ferro diretamente sobre a estampa</strong>.
+                `
+            },
+            prazos: {
+                titulo: "Prazos e Entregas",
+                texto: `
+                    <strong style="color:#fff;">Produção Exclusiva:</strong><br>
+                    Como operamos com um padrão de qualidade rigoroso (Private Label), após a confirmação do seu pedido, a sua peça entra na nossa linha de estamparia. O prazo de montagem e setup é de <strong>2 a 4 dias úteis</strong>.<br><br>
+                    <strong style="color:#fff;">Envio:</strong><br>
+                    Assim que a peça é embalada, é despachada via Correios ou Transportadora. O prazo de entrega final depende da sua região e será informado no ato da compra via WhatsApp.
+                `
+            },
+            trocas: {
+                titulo: "Trocas e Devoluções",
+                texto: `
+                    Na Zuffen & Valenza, a sua satisfação é garantida. Seguimos rigorosamente o Código de Defesa do Consumidor.<br><br>
+                    <strong style="color:#fff;">Arrependimento ou Troca de Tamanho:</strong><br>
+                    Tem até <strong>7 dias corridos</strong> após o recebimento da peça para solicitar a troca ou devolução. A peça não pode apresentar marcas de uso ou lavagem.<br><br>
+                    <strong style="color:#fff;">Defeitos de Fabricação:</strong><br>
+                    Oferecemos garantia de <strong>30 dias</strong> contra defeitos de costura ou falhas na estamparia. Contacte-nos pelo WhatsApp com fotos do produto para iniciarmos o processo de substituição sem custos.
+                `
+            },
+            rastreio: {
+                titulo: "Rastreamento de Pedido",
+                texto: `
+                    <strong style="color:#fff;">Acompanhe a sua Encomenda:</strong><br><br>
+                    Todo o processo de atualização do seu pedido, desde a produção até ao envio, é notificado diretamente através do WhatsApp utilizado no momento da compra.<br><br>
+                    Assim que o pedido for despachado, enviaremos o seu <strong>Código de Rastreio</strong> e o link direto da transportadora para poder acompanhar a chegada da sua peça Z&V em tempo real.
+                `
+            }
+        };
+
+        function abrirModalInfo(tipo) {
+            document.getElementById('info-titulo').innerHTML = conteudosInfo[tipo].titulo;
+            document.getElementById('info-texto').innerHTML = conteudosInfo[tipo].texto;
+            document.getElementById('modal-info').classList.add('ativo');
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function fecharModalInfo() {
+            document.getElementById('modal-info').classList.remove('ativo');
+            document.body.style.overflow = 'auto'; 
+        }
 
         function renderizarGaleria() {
             const galeriaPremium = document.getElementById('galeria-premium');
@@ -585,6 +643,7 @@
         window.onclick = function(event) {
             if (event.target == document.getElementById('modal-produto')) fecharDetalhesProduto();
             if (event.target == document.getElementById('modal-medidas')) fecharModalMedidas();
+            if (event.target == document.getElementById('modal-info')) fecharModalInfo();
         }
 
         window.onload = function() {
